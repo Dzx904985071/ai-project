@@ -1,0 +1,17 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom" // 隐藏默认导航栏
+			}
+		}
+	],
+//	"globalStyle": {
+//		"navigationBarTextStyle": "white",
+//		"navigationBarTitleText": "uni-app",
+//		"navigationBarBackgroundColor": "#070707",
+//		"backgroundColor": "#070707"
+//	},
+	"uniIdRouter": {}
+}
