@@ -9,12 +9,15 @@
 
 			<!-- 底部导航栏 -->
 			<NavigatorBottom @update="handleUpdate"></NavigatorBottom>
+			
+			<!--消息提示-->
+			<wd-notify />
 		</wd-config-provider>
 	</view>
 </template>
 
 <script setup>
-	import { ref, reactive, shallowRef } from 'vue';
+	import { ref, reactive, shallowRef, onMounted } from 'vue';
 	import NavigatorBottom from "./components/navigator/navigatorBottom.vue";
 	import takeoff from "./takeoff/takeoff.vue";
 	import imgai from "./imgai/imgai.vue";

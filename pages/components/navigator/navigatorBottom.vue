@@ -2,8 +2,9 @@
 	<view>
 		<wd-tabbar
 			v-model="tabbar"
-			:inactive-color="'#ffffff'"
-			bordered fixed placeholder
+			:bordered="false"
+			:inactive-color="'#ffffff'" bordered fixed
+			placeholder
 			safeAreaInsetBottom
 			@change="handleChangeNav"
 		>
@@ -25,11 +26,14 @@
 </template>
 
 <script setup>
-	import { ref, onMounted, defineEmits } from 'vue'
+	import { ref, onMounted, defineEmits, inject, onBeforeUnmount } from 'vue'
 	
 	const tabbar = ref('takeoff')
 	
+	// 子传父
 	const emit = defineEmits(['update'])
+	// 跨组件
+	import emitter from '/utils/emitter.js'  // 引入事件总线
 	
 	const handleChangeNav = ({ value }) => {
 		console.log(value)
@@ -37,7 +41,14 @@
 	}
 	
 	onMounted(() => {
+		emitter.on('goTakeOff', (value) => {
+			tabbar.value = value
+			emit('update', value)
+		})
+	})
 	
+	onBeforeUnmount(() => {
+		emitter.off('goTakeOff')
 	})
 	
 </script>
