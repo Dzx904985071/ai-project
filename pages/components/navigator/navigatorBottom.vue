@@ -5,7 +5,7 @@
 			:inactive-color="'#ffffff'"
 			bordered fixed placeholder
 			safeAreaInsetBottom
-			@change="handleChange"
+			@change="handleChangeNav"
 		>
 			<wd-tabbar-item
 				:icon="tabbar !== 'takeoff' ? '/static/img/components/navigator/fire_deactivate.svg' : '/static/img/components/navigator/fire_activate.svg'"
@@ -25,12 +25,15 @@
 </template>
 
 <script setup>
-	import { ref, onMounted } from 'vue'
+	import { ref, onMounted, defineEmits } from 'vue'
 	
 	const tabbar = ref('takeoff')
 	
-	const handleChange = ({ value }) => {
+	const emit = defineEmits(['update'])
+	
+	const handleChangeNav = ({ value }) => {
 		console.log(value)
+		emit('update', value)
 	}
 	
 	onMounted(() => {
