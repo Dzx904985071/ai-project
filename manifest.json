@@ -1,5 +1,5 @@
 {
-    "name" : "ai",
+    "name" : "ai换图",
     "appid" : "__UNI__8360B75",
     "description" : "",
     "versionName" : "1.0.0",
@@ -108,7 +108,7 @@
     "h5" : {
         "darkmode" : true,
         "themeLocation" : "theme.json",
-        "title" : "ai",
+        "title" : "ai换图",
         "router" : {
             "mode" : "history",
             "base" : "./"

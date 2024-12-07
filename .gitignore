@@ -10,7 +10,7 @@ node_modules/
 /dist/
 /dev/
 /.DS_Store
-uni_modules/
+#uni_modules/
 
 # 忽略UniApp编译生成的小程序相关目录
 /unpackage/resources/
