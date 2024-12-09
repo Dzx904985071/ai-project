@@ -33,6 +33,17 @@
 				></wd-icon>
 			</template>
 		</wd-navbar>
+		<wd-notice-bar
+			text=""
+			:background-color="'transparent'"
+			:color="'#10c5fa'"
+			:speed="75"
+		>
+			<template #prefix>
+				<wd-icon name="notification" size="36rpx" style="margin-right: 10px"></wd-icon>
+			</template>
+			<div style="font-size: 28rpx">域名存在被封禁风险，请保存登录凭证或设置用户名密码...本站永久域名：xxxx.xxx，请收藏！ </div>
+		</wd-notice-bar>
 	</view>
 </template>
 
@@ -66,7 +77,7 @@
 		emitter.emit('goTakeOff', 'takeoff')
 	}
 	
-	const count = ref(0)
+	// const count = ref(0)
 	const getUserInfo = async () => {
 		const params = {
 			aa: 'bb'
@@ -95,8 +106,8 @@
 		}
 		try {
 			console.log(res)
-			count.value++
-			console.log(count.value)
+			// count.value++
+			// console.log(count.value)
 			userInfo.value = res
 		}
 		catch(e) {

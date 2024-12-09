@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<wd-tabbar
-			v-model="tabbar"
+			v-model="tabBar"
 			:bordered="false"
 			:inactive-color="'#ffffff'" bordered fixed
 			placeholder
@@ -9,7 +9,7 @@
 			@change="handleChangeNav"
 		>
 			<wd-tabbar-item
-				:icon="tabbar !== 'takeoff' ? '/static/img/components/navigator/fire_deactivate.svg' : '/static/img/components/navigator/fire_activate.svg'"
+				:icon="tabBar !== 'takeoff' ? '/static/img/components/navigator/fire_deactivate.svg' : '/static/img/components/navigator/fire_activate.svg'"
 				name="takeoff"
 				title="AI脱衣"
 			>
@@ -28,7 +28,7 @@
 <script setup>
 	import { ref, onMounted, defineEmits, inject, onBeforeUnmount } from 'vue'
 	
-	const tabbar = ref('takeoff')
+	const tabBar = ref('takeoff')
 	
 	// 子传父
 	const emit = defineEmits(['update'])
@@ -42,7 +42,7 @@
 	
 	onMounted(() => {
 		emitter.on('goTakeOff', (value) => {
-			tabbar.value = value
+			tabBar.value = value
 			emit('update', value)
 		})
 	})
