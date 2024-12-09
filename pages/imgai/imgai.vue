@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<NavigatorTop></NavigatorTop>
 		图片换脸
 	</view>
 </template>

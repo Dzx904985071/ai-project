@@ -1,6 +1,8 @@
 <template>
 	<view class="container">
-		<wd-config-provider theme="dark">
+		<wd-config-provider theme="dark" :theme-vars="themeVars">
+			<!--顶栏-->
+			<NavigatorTop v-if="currentPage !== 'my'"></NavigatorTop>
 			<!-- 内容区域 -->
 			<view class="content">
 				<!-- 使用动态组件渲染当前页面 -->
@@ -22,6 +24,7 @@
 	import takeoff from "./takeoff/takeoff.vue";
 	import imgai from "./imgai/imgai.vue";
 	import my from "./my/my.vue";
+	import NavigatorTop from "./components/navigator/navigatorTop.vue";
 	
 	const components = {
 		takeoff,
@@ -30,6 +33,10 @@
 	};
 	
 	const currentPage = ref('takeoff'); // 默认页面是 'takeoff'
+	
+	const themeVars = reactive({
+		colorTheme: '#10c5fa'
+	})
 	
 	// 更新页面时根据字符串更新 currentPage
 	const handleUpdate = (value) => {

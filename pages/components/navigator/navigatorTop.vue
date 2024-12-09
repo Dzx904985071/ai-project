@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<wd-navbar :bordered="false">
+		<wd-navbar :bordered="false" :shape="'round'">
 			<template #capsule>
 				<wd-icon class="homeIcon" name="home" size="28" @click="handleClickHome"></wd-icon>
 				<view class="userNickName">{{ userInfo.nickname }}</view>
