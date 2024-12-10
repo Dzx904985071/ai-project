@@ -2,9 +2,13 @@
 	<view class="container">
 		<wd-config-provider theme="dark" :theme-vars="themeVars">
 			<!--顶栏-->
-			<NavigatorTop v-if="currentPage !== 'my'"></NavigatorTop>
+			<wd-sticky v-if="currentPage !== 'my'" :offset-top="-44">
+				<NavigatorTop style="width: 100dvw" ></NavigatorTop>
+			</wd-sticky>
+			
 			<!-- 内容区域 -->
 			<view class="content">
+				
 				<!-- 使用动态组件渲染当前页面 -->
 				<component :is="components[currentPage]" />
 			</view>
