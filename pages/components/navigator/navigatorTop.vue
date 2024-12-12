@@ -108,7 +108,7 @@
 			}
 		}
 		try {
-			console.log(res)
+			// console.log(res)
 			// count.value++
 			// console.log(count.value)
 			userInfo.value = res

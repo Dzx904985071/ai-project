@@ -1,6 +1,5 @@
 <template>
 	<view>
-		
 		<view class="titleContent">
 			单张制作费用:
 			<text style="color: #fdc100;">
@@ -71,8 +70,8 @@ const warningList = ref([
 
 // 获取平台信息
 onMounted(() => {
-  console.log(process.env.UNI_PLATFORM)
-	console.log(process.env)
+  // console.log(process.env.UNI_PLATFORM)
+	// console.log(process.env)
 })
 </script>
 
