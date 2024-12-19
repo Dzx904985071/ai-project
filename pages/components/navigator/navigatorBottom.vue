@@ -18,8 +18,8 @@
 			<!--</wd-tabbar-item>-->
 			<wd-tabbar-item icon="picture" name="imgai" title="图片换脸">
 			</wd-tabbar-item>
-			<!--<wd-tabbar-item name="videoai" title="视频换脸" icon="video">-->
-			<!--</wd-tabbar-item>-->
+			<wd-tabbar-item name="videoai" title="视频换脸" icon="video">
+			</wd-tabbar-item>
 			<wd-tabbar-item icon="user" name="my" title="我的"></wd-tabbar-item>
 		</wd-tabbar>
 	</view>

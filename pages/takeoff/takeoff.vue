@@ -60,6 +60,10 @@ const fileList = ref([
 ])
 const uploadAction = ref('https://ftf.jd.com/api/uploadImg')
 
+const handleChange = () => {
+
+}
+
 const warningList = ref([
 	'素材仅供AI使用，绝无外泄风险，请放心使用。',
 	'素材清晰且小于 5Mb。',
@@ -86,34 +90,35 @@ onMounted(() => {
 	
 	.contentInner {
 		padding: 20rpx;
+		
+		.uploadButtonInner_noImg {
+			height: 400rpx;
+			width: calc(100dvw - 40rpx);
+			text-align: center;
+			color: #cdcdcd;
+			background: rgba(16, 133, 250, 0.1);
+			border: 1px dashed #10c5fa;
+			border-radius: 10rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 32rpx
+		}
+		
+		.introImg {
+			width: calc(100dvw - 40rpx);
+			height: 400rpx;
+			margin-bottom: 32rpx
+		}
+		
+		.warningText {
+			margin-bottom: 16rpx;
+		}
+		
+		.warningText:last-child {
+			margin-bottom: 0;
+		}
 	}
 	
-	.uploadButtonInner_noImg {
-		height: 400rpx;
-		width: calc(100dvw - 40rpx);
-		text-align: center;
-		color: #cdcdcd;
-		background: rgba(16, 133, 250, 0.1);
-		border: 1px dashed #10c5fa;
-		border-radius: 10rpx;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		margin-bottom: 32rpx
-	}
-	
-	.introImg {
-		width: calc(100dvw - 40rpx);
-		height: 400rpx;
-		margin-bottom: 32rpx
-	}
-	
-	.warningText {
-		margin-bottom: 16rpx;
-	}
-	
-	.warningText:last-child {
-		margin-bottom: 0;
-	}
 </style>

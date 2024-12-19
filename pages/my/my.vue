@@ -111,9 +111,9 @@
 		<!--个人信息-->
 		<view v-if="showUserInfo" class="formItem">
 			<view style="width: 25%">我的昵称</view>
-			<wd-input class="formInput" placeholder="请输入昵称">
+			<wd-input v-model="userInfo.nickname" :clear-trigger="'focus'" class="formInput" clearable placeholder="请输入昵称">
 				<template #suffix>
-					<wd-button :round="false" plain size="small">修改</wd-button>
+					<wd-button :round="false" plain size="small" style="margin-left: 16rpx">修改</wd-button>
 				</template>
 			</wd-input>
 		</view>
@@ -127,7 +127,7 @@
 		</view>
 		
 		<view v-if="showUserInfo" class="bottomButton">
-			<wd-button type="error" block @click="logout">退出登录</wd-button>
+			<wd-button block type="error" @click="logout">退出登录</wd-button>
 		</view>
 		<view v-if="!showUserInfo" class="bottomButton">
 			<wd-button block @click="login">用户登录</wd-button>
@@ -153,7 +153,7 @@
 		username: "",
 		nickname: "",
 		uuid: "",
-		sex: 1,
+		sex: 2,
 		balance: 0,
 		free_times: 0,
 		level: 1,
@@ -192,10 +192,10 @@
 			username: "jFjsV1733384631",
 			nickname: "jFjsV1733384631111111",
 			uuid: "d848eafd9ce5c08827a1e1c57ff5d1d7",
-			sex: 1,
+			sex: 2,
 			balance: 0,
 			free_times: 0,
-			level: 1,
+			level: 2,
 			level_extra: {
 				expired_time: "",
 				undress_num: 0,
@@ -208,7 +208,8 @@
 	}
 	
 	const login = () => {
-		showUserInfo.value = true
+		// showUserInfo.value = true
+		getUserInfo()
 	}
 	
 	const logout = () => {
