@@ -29,13 +29,15 @@
 	import imgai from "./imgai/imgai.vue";
 	import my from "./my/my.vue";
 	import videoai from './videoai/videoai.vue'
+	import tumo from './tumo/tumo.vue'
 	import NavigatorTop from "./components/navigator/navigatorTop.vue";
 	
 	const components = {
 		takeoff,
 		imgai,
 		my,
-		videoai
+		videoai,
+		tumo
 	};
 	
 	const currentPage = ref('takeoff'); // 默认页面是 'takeoff'

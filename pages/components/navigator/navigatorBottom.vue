@@ -14,8 +14,8 @@
 				title="AI脱衣"
 			>
 			</wd-tabbar-item>
-			<!--<wd-tabbar-item name="tumo" title="手动脱衣" icon="thumb-up">-->
-			<!--</wd-tabbar-item>-->
+			<wd-tabbar-item name="tumo" title="手动脱衣" icon="thumb-up">
+			</wd-tabbar-item>
 			<wd-tabbar-item icon="picture" name="imgai" title="图片换脸">
 			</wd-tabbar-item>
 			<wd-tabbar-item name="videoai" title="视频换脸" icon="video">

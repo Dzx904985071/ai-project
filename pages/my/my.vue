@@ -44,7 +44,7 @@
 						<view class="gridSlot">
 							<wd-img :src="item.img" style="width: 64rpx; height: 64rpx;"></wd-img>
 							<view class="text">{{ item.name }}</view>
-							<wd-button size="small" type="primary">{{ item.buttonText }}</wd-button>
+							<wd-button size="small" type="primary" @click="openDialog(item.dialog)">{{ item.buttonText }}</wd-button>
 						</view>
 					</wd-grid-item>
 				</wd-grid>
@@ -132,11 +132,18 @@
 		<view v-if="!showUserInfo" class="bottomButton">
 			<wd-button block @click="login">用户登录</wd-button>
 		</view>
+		
+		<!--财务明细-->
+		<view v-if="showCostList" class="costList">
+			<wallet @close="showCostList = false"></wallet>
+		</view>
+		
 	</view>
 </template>
 
 <script setup>
 	import { ref, reactive, shallowRef, onMounted } from 'vue';
+	import wallet from './wallet.vue'
 	
 	const showUserInfo = ref(false)
 	
@@ -170,19 +177,19 @@
 		{
 			name: '财务明细',
 			img: '/static/img/pages/my/wallet.png',
-			path: '/pages/my/wallet',
+			dialog: 'showCostList',
 			buttonText: '查看'
 		},
 		{
 			name: '金币',
 			img: '/static/img/pages/my/coin.png',
-			path: '/pages/my/wallet',
+			dialog: '/pages/my/wallet',
 			buttonText: '充值'
 		},
 		{
 			name: '生成记录',
 			img: '/static/img/pages/my/records.png',
-			path: '/pages/my/wallet',
+			dialog: '/pages/my/wallet',
 			buttonText: '查看'
 		},
 	])
@@ -215,6 +222,17 @@
 	const logout = () => {
 		showUserInfo.value = false
 	}
+	
+	const openDialog = (dialog) => {
+		switch(dialog) {
+			case 'showCostList':
+				showCostList.value = true
+				break
+			default: break
+		}
+	}
+	
+	const showCostList = ref(false)
 	
 	onMounted(() => {
 		getUserInfo()
@@ -292,5 +310,15 @@
 	
 	.bottomButton {
 		padding: 0 32rpx;
+	}
+	
+	.costList {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100dvw;
+		height: 100dvh;
+		background: #11151C;
+		z-index: 999999;
 	}
 </style>

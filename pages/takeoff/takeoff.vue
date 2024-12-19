@@ -31,6 +31,7 @@
 					<view>图片大小不超过5MB</view>
 				</view>
 			</wd-upload>
+			<wd-button block style="margin-bottom: 32rpx">制作</wd-button>
 			<view style="margin-bottom: 20rpx">
 				<wd-text type="primary" text="效果示例图" bold></wd-text>
 			</view>

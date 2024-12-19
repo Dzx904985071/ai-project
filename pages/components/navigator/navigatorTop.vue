@@ -37,6 +37,7 @@
 			style="background: #131313"
 		>
 			<wd-notice-bar
+				v-if="showNotice"
 				:background-color="'#131313'"
 				:color="'#10c5fa'"
 				:speed="75"
@@ -51,7 +52,7 @@
 </template>
 
 <script setup>
-	import { ref, onMounted, getCurrentInstance } from 'vue'
+	import { ref, onMounted, getCurrentInstance, defineProps } from 'vue'
 	
 	import emitter from '/utils/emitter.js'  // 引入事件总线
 	import {httpRequest} from "../../../utils/request";
@@ -73,6 +74,13 @@
 			swap_image_num: 0,
 			swap_video_num: 0,
 			swap_gif_num: 0
+		}
+	})
+	
+	defineProps({
+		showNotice: {
+			type: Boolean,
+			default: true
 		}
 	})
 	
@@ -129,11 +137,11 @@
 
 <style lang="scss" scoped>
 	.homeIcon {
-		margin-right: 5px;
+		margin-right: 8rpx;
 	}
 	.userNickName {
 		font-size: 24rpx;
-		margin-right: 5px;
+		margin-right: 8rpx;
 	}
 	.userLevel {
 		font-size: 20rpx;
@@ -142,7 +150,7 @@
 		line-height: 24rpx;
 		padding: 2rpx 6rpx;
 		border-radius: 8rpx;
-		margin-right: 10px;
+		margin-right: 8rpx;
 	}
 	
 	.vip{
@@ -157,7 +165,7 @@
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #fdc100;
-		margin-right: 5px;
+		margin-right: 8rpx;
 	}
 	
 	.refresh {
