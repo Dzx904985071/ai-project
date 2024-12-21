@@ -2,7 +2,7 @@
 	<view>
 		<wd-navbar :bordered="false" :shape="'round'">
 			<template #capsule>
-				<wd-icon class="homeIcon" name="home" size="28" @click="handleClickHome"></wd-icon>
+				<wd-icon :color="'#de6682'" class="homeIcon" name="home" size="28" @click="handleClickHome" ></wd-icon>
 				<view class="userNickName">{{ userInfo.nickname }}</view>
 				<view
 					:class="userInfo.level > 1 ? 'vip' : 'normal'"
@@ -19,6 +19,7 @@
 				</wd-img>
 				<view class="userCoin">{{ userInfo.balance }}</view>
 				<wd-icon
+					:color="'#de6682'"
 					class="refresh"
 					name="refresh1"
 					size="20"
@@ -26,7 +27,11 @@
 				></wd-icon>
 			</template>
 			<template #right>
-				<wd-button size="small" type="error" style="margin-right: 5px">充值</wd-button>
+				<wd-button size="small" style="margin-right: 5px; border-radius: 16rpx" type="primary" :round="false">
+					<view style="width: 100rpx">
+						充值
+					</view>
+				</wd-button>
 				<wd-icon
 					name="list"
 					size="20"
@@ -34,16 +39,16 @@
 			</template>
 		</wd-navbar>
 		<view
-			style="background: #131313"
+			style="background: #fff"
 		>
 			<wd-notice-bar
 				v-if="showNotice"
-				:background-color="'#131313'"
-				:color="'#10c5fa'"
+				:background-color="'#fff'"
+				:color="'#de6682'"
 				:speed="75"
 			>
 				<template #prefix>
-					<wd-icon name="notification" size="36rpx" style="margin-right: 10px"></wd-icon>
+					<wd-icon color="#333333" name="notification" size="36rpx" style="margin-right: 10px"></wd-icon>
 				</template>
 				<div style="font-size: 28rpx">域名存在被封禁风险，请保存登录凭证或设置用户名密码...本站永久域名：xxxx.xxx，请收藏！ </div>
 			</wd-notice-bar>
@@ -148,8 +153,8 @@
 		height: 24rpx;
 		text-align: center;
 		line-height: 24rpx;
-		padding: 2rpx 6rpx;
-		border-radius: 8rpx;
+		padding: 8rpx 12rpx;
+		border-radius: 24rpx;
 		margin-right: 8rpx;
 	}
 	
