@@ -152,10 +152,11 @@
 		font-size: 20rpx;
 		height: 24rpx;
 		text-align: center;
-		line-height: 24rpx;
+		line-height: 1;
 		padding: 8rpx 12rpx;
 		border-radius: 24rpx;
 		margin-right: 8rpx;
+		color: #fff;
 	}
 	
 	.vip{

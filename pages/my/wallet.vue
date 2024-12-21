@@ -15,14 +15,14 @@
 		<view class="walletList">
 			<view v-for="item in walletList" class="listContent">
 				<view style="display: flex; justify-content: space-between; padding: 20rpx">
-					<view style="color: #10c5fa; font-weight: bold">
+					<view style="color: #DE6683; font-weight: bold">
 						{{ item.type }}
 					</view>
 					<view style="">
 						{{ item.time }}
 					</view>
 				</view>
-				<view style="background-color: #1c2027; padding: 20rpx">
+				<view style="background-color: #fff; padding: 20rpx">
 					<view style="margin-bottom: 20rpx; font-size: 28rpx">
 						<text>消耗金币:</text>
 						<wd-img
@@ -107,8 +107,8 @@
 		padding: 20rpx;
 		
 		.listContent {
-			border: 1px dashed #10c5fa;
-			background: rgba(16, 197, 250, .1);
+			border: 1px dashed #DE6683;
+			background: rgba(222, 102, 131, .1);
 			border-radius: 8rpx;
 			margin-bottom: 20rpx;
 		}

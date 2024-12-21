@@ -30,7 +30,7 @@
 			<view class="recordList">
 				<view v-for="item in result.list" class="recordListContent">
 					<view style="display: flex; justify-content: space-between; padding: 20rpx">
-						<view style="font-weight: bold">
+						<view style="font-weight: bold; color: #DE6683">
 							<text>消耗金币: </text>
 							<wd-img
 								:height="12"
@@ -41,14 +41,14 @@
 							</wd-img>
 							<text style="font-weight: bold; color: #ffbe20">{{ item.money }}</text>
 						</view>
-						<view style="color: #10c5fa; font-weight: bold">
+						<view style="color: #DE6683; font-weight: bold">
 							{{ statusList.find(i => i.value == item.status).label }}
 						</view>
 						<view style="">
 							{{ formatTime(item.created_at) }}
 						</view>
 					</view>
-					<view style="display: flex; justify-content: space-between; align-items: center;background-color: #1c2027; padding: 20rpx">
+					<view style="display: flex; justify-content: space-between; align-items: center;background-color: #fff; padding: 20rpx">
 						<view style="display: flex; justify-content: flex-start; flex: 1">
 							<img :src="item.video_image || item.source_url" alt="" style="height: 110rpx; margin-right: 24rpx" @click="preview(item.source_url)"/>
 							<img :src="item.target_url" alt="" style="height: 110rpx" @click="preview(item.target_url)"/>
@@ -75,7 +75,7 @@
 				<video v-else :src="previewUrl" controls style="width: 100%"/>
 			</wd-popup>
 			
-			<view v-if="showCheckResult" style="position: absolute; top: 44px; left: 0; z-index: 9999999; width: 100dvw; height: calc(100dvh - 44px); background:#11151C;">
+			<view v-if="showCheckResult" style="position: absolute; top: 44px; left: 0; z-index: 9999999; width: 100dvw; height: calc(100dvh - 44px); background:#f5f5f5;">
 				<check-result :result="resultInfo" @closeCheckResult="showCheckResult = false" ></check-result>
 			</view>
 			
@@ -215,8 +215,8 @@
 	.recordList {
 		
 		.recordListContent {
-			border: 1px dashed #10c5fa;
-			background: rgba(16, 197, 250, .1);
+			border: 1px dashed #DE6683;
+			background: rgba(222, 102, 131, .1);
 			border-radius: 8rpx;
 			margin-bottom: 20rpx;
 			font-size: 28rpx;

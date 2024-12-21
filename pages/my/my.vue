@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="background: #F5F5F5;">
 		<view class="myTop">
 			<!--用户信息-->
 			<view class="userInfoTop">
@@ -8,10 +8,10 @@
 						<wd-img height="66" round src="/static/img/pages/my/userImg.png" width="66"></wd-img>
 					</view>
 					<view>
-						<view>用户昵称</view>
+						<view style="color: #de6682; font-weight: bold">用户昵称</view>
 						<view style="font-size: 24rpx; color: #fff">
 							<wd-text
-								:color="'#fff'"
+								:color="'#272724'"
 								:text="showUserName()"
 							></wd-text>
 						</view>
@@ -34,7 +34,6 @@
 					:bg-color="'transparent'"
 					:column="3"
 					:gutter="10"
-					square
 				>
 					<wd-grid-item
 						v-for="item in list"
@@ -42,22 +41,42 @@
 						use-slot
 					>
 						<view class="gridSlot">
-							<wd-img :src="item.img" style="width: 64rpx; height: 64rpx;"></wd-img>
-							<view class="text">{{ item.name }}</view>
+							<wd-img :src="item.img" style="width: 64rpx; height: 64rpx; margin-bottom: 12rpx"></wd-img>
+							<view class="text">
+								{{ item.name }}
+								<text style="color: #F6A56E" v-if="item.name === '金币'">
+									{{ userInfo.balance }}
+								</text>
+							</view>
 							<wd-button size="small" type="primary" @click="openDialog(item.dialog)">{{ item.buttonText }}</wd-button>
 						</view>
 					</wd-grid-item>
 				</wd-grid>
 			</view>
 			
+			<!--滚动提示-->
+			<view class="noticeBar">
+				<wd-notice-bar
+					:background-color="'transparent'"
+					:color="'#DE6683'"
+					:speed="75"
+					style="padding: 0"
+				>
+					<template #prefix>
+						<wd-icon color="#000" name="notification" size="36rpx" style="margin-right: 10px"></wd-icon>
+					</template>
+					<view style="font-size: 28rpx">域名存在被封禁风险，请保存登录凭证或设置用户名密码...本站永久域名：xxxx.xxx，请收藏！ </view>
+				</wd-notice-bar>
+			</view>
+			
 			<!--官方tg-->
 			<view class="tgLink">
 				<view style="display: flex; align-items: center">
-					<wd-img src="/static/img/pages/my/tgIcon.png" style="width: 36rpx; height: 36rpx; margin-right: 12rpx"></wd-img>
+					<wd-img src="/static/img/pages/my/tgIcon.png" style="width: 56rpx; height: 56rpx; margin-right: 12rpx"></wd-img>
 					<view>官方tg频道</view>
 				</view>
 				<view style="display: flex; align-items: center">
-					<view>每日享受最新内容资源更新</view>
+					<view style="color: #a6a8aa; margin-right: 40rpx">每日享受最新内容资源更新</view>
 					<wd-icon name="arrow-right" size="20"></wd-icon>
 				</view>
 			</view>
@@ -65,7 +84,7 @@
 			<!--商务合作-->
 			<view class="tgLink">
 				<view style="display: flex; align-items: center">
-					<wd-img src="/static/img/pages/my/tgIcon.png" style="width: 36rpx; height: 36rpx; margin-right: 12rpx"></wd-img>
+					<wd-img src="/static/img/pages/my/tgIcon.png" style="width: 56rpx; height: 56rpx; margin-right: 12rpx"></wd-img>
 					<view>tg商务合作</view>
 				</view>
 				<wd-icon name="arrow-right" size="20"></wd-icon>
@@ -74,60 +93,52 @@
 			<!--下载app-->
 			<view class="tgLink">
 				<view style="display: flex; align-items: center">
-					<wd-img src="/static/img/pages/my/fudai.png" style="width: 36rpx; height: 36rpx; margin-right: 12rpx"></wd-img>
 					<view>下载app</view>
 				</view>
 				<wd-icon name="arrow-right" size="20"></wd-icon>
 			</view>
 			
-			<!--滚动提示-->
-			<view class="noticeBar">
-				<wd-notice-bar
-					:background-color="'transparent'"
-					:color="'#10c5fa'"
-					:speed="75"
-					style="padding: 0"
-				>
-					<template #prefix>
-						<wd-icon name="notification" size="36rpx" style="margin-right: 10px"></wd-icon>
-					</template>
-					<div style="font-size: 28rpx">点点分享，免费获取金币，让ai更简单 >>></div>
-				</wd-notice-bar>
-			</view>
-			
 			<!--分享按钮-->
 			<view>
-				<wd-button block>分享好友赚金币</wd-button>
+				<wd-button block :round="false" style="border-radius: 12rpx">分享好友赚金币</wd-button>
 			</view>
 		</view>
 		
 		<!--个人资料-->
-		<view style="display: flex; justify-content: center; margin-bottom: 32rpx">
+		<view style="display: flex; margin-bottom: 32rpx; padding: 0 40rpx">
 			<view>
-				<wd-text :color="'#fff'" bold text="个人资料"></wd-text>
+				<wd-text :color="'#000'" bold text="个人资料"></wd-text>
 			</view>
 		</view>
 		
 		<!--个人信息-->
-		<view v-if="showUserInfo" class="formItem">
-			<view style="width: 25%">我的昵称</view>
-			<wd-input v-model="userInfo.nickname" :clear-trigger="'focus'" class="formInput" clearable placeholder="请输入昵称">
-				<template #suffix>
-					<wd-button :round="false" plain size="small" style="margin-left: 16rpx">修改</wd-button>
-				</template>
-			</wd-input>
-		</view>
-		<view v-if="showUserInfo" class="formItem">
-			<view style="width: 25%">性别</view>
-			<!--<wd-input class="formInput"></wd-input>-->
-			<wd-radio-group v-model="userInfo.sex" inline shape="dot">
-				<wd-radio :value="1">男</wd-radio>
-				<wd-radio :value="2">女</wd-radio>
-			</wd-radio-group>
+		<view v-if="showUserInfo" style="margin: 0 40rpx 40rpx; padding: 40rpx; background:#fff;">
+			<view class="formItem">
+				<view style="width: 25%">我的昵称</view>
+				<wd-input
+					:no-border="true"
+					v-model="userInfo.nickname"
+					:clear-trigger="'focus'"
+					class="formInput"
+					clearable
+					placeholder="请输入昵称"
+					size="medium"
+				>
+				</wd-input>
+				<wd-button :round="false" size="small" style="margin-left: 16rpx; border-radius: 12rpx">修改</wd-button>
+			</view>
+			<view class="formItem">
+				<view style="width: 25%">性别</view>
+				<!--<wd-input class="formInput"></wd-input>-->
+				<wd-radio-group v-model="userInfo.sex" inline shape="check">
+					<wd-radio :value="1">男</wd-radio>
+					<wd-radio :value="2">女</wd-radio>
+				</wd-radio-group>
+			</view>
 		</view>
 		
 		<view v-if="showUserInfo" class="bottomButton">
-			<wd-button block type="error" @click="logout">退出登录</wd-button>
+			<wd-button block type="primary" @click="logout">退出登录</wd-button>
 		</view>
 		<view v-if="!showUserInfo" class="bottomButton">
 			<wd-button block @click="login">用户登录</wd-button>
@@ -254,8 +265,8 @@
 <style lang="scss" scoped>
 	.myTop {
 		padding: 40rpx;
-		background: rgba(16,197,250,.3);
-		margin-bottom: 24rpx;
+		background: url('/static/img/pages/my/bg.png') no-repeat;
+		background-size: 100% auto;
 		
 		.userInfoTop {
 			width: 100%;
@@ -282,19 +293,25 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			gap: 12rpx;
-			background: rgba(16,197,250,.1);
-			padding: 24rpx 0;
+			background: #fff;
+			padding: 12rpx 0;
 			border-radius: 12rpx;
+			border: 1px solid #DE6683;
+			
+			.text {
+				margin-bottom: 24rpx;
+				font-size: 28rpx;
+				font-weight: bold;
+			}
 		}
 		
 		.tgLink {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			height: 96rpx;
-			line-height: 96rpx;
-			background: rgba(16,197,250,.3);
+			height: 116rpx;
+			line-height: 116rpx;
+			background: #fff;
 			border-radius: 12rpx;
 			padding: 0 12rpx 0 24rpx;
 			font-size: 24rpx;
@@ -308,13 +325,30 @@
 	
 	.formItem {
 		display: flex;
-		margin-bottom: 32rpx;
+		margin-bottom: 20rpx;
 		justify-content: start;
 		align-items: center;
-		padding: 0 32rpx;
 		
 		.formInput {
-			flex: 1
+			flex: 1;
+			border: 1px solid #DE6683;
+			border-radius: 12rpx;
+		}
+	}
+	.formItem:last-child {
+		display: flex;
+		margin-bottom: 0;
+		justify-content: start;
+		align-items: center;
+		
+		.formInput {
+			flex: 1;
+		}
+	}
+	
+	:deep(.wd-radio-group) {
+		.wd-radio__shape {
+			border: 1px solid #DE6683;
 		}
 	}
 	
@@ -328,7 +362,7 @@
 		left: 0;
 		width: 100dvw;
 		height: 100dvh;
-		background: #11151C;
+		background: #F5F5F5;
 		z-index: 999;
 	}
 	
@@ -338,7 +372,7 @@
 		left: 0;
 		width: 100dvw;
 		height: 100dvh;
-		background: #11151C;
+		background: #F5F5F5;
 		z-index: 999;
 	}
 </style>

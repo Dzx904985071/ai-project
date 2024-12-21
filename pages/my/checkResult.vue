@@ -31,7 +31,7 @@
 				{{formatTime(props.result.created_at)}}
 			</view>
 		<!--<wd-button type="text">无水印下载</wd-button>-->
-			<text style="font-weight: 700;" @click="download">无水印下载</text>
+			<text style="font-weight: 700; color: #DE6683" @click="download">无水印下载</text>
 		</view>
 		</view>
 		
@@ -88,7 +88,6 @@
 		height: 42px;
 		line-height: 42px;
 		text-align: center;
-		background: #10c5fa;
 		//font-weight: bold;
 		display: flex;
 		justify-content: space-between;
