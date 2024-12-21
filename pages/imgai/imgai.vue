@@ -31,9 +31,9 @@
 		
 		<view class="modelList">
 			<wd-grid :bg-color="'transparent'" :column="2" :gutter="10">
-				<wd-grid-item v-for="item in modelList" use-slot>
+				<wd-grid-item v-for="item in modelList" use-slot @click="openDialog(item)">
 					<view class="modelListSlot">
-						<wd-img :src="item.img" style="width: 100%; height: 100%" :radius="8"></wd-img>
+						<wd-img :src="item.image" style="width: 100%; height: 100%" :radius="8"></wd-img>
 						<view>{{ item.name }}</view>
 						<view class="coinCost">
 							<wd-img
@@ -51,11 +51,16 @@
 				</wd-grid-item>
 			</wd-grid>
 		</view>
+		
+		<view v-if="showAiChangeFace" class="aiChangeFace">
+			<aiChangeFace @close="showAiChangeFace = false" :item="item"></aiChangeFace>
+		</view>
 	</view>
 </template>
 
 <script setup>
 	import { ref, reactive, shallowRef, onMounted } from 'vue';
+	import aiChangeFace from '../components/aiChangeFace/aiChangeFace.vue'
 	
 	const current = ref(0)
 	const list = ref([
@@ -97,22 +102,41 @@
 	const getModelList = () => {
 		modelList.value = [
 			{
-				img: '/static/img/imgai/testImg.jpg',
-				cost: 101,
-				name: '测试模板',
-				uploadTime: '',
-				usedTime: 20,
+				id: 132,
+				created_at: "2024-11-20T14:51:08+08:00",
+				updated_at: "2024-12-21T22:13:06+08:00",
+				deleted_at: null,
+				label_id: 16,
+				name: "若隐若现",
+				icon: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728-thumb.jpg",
+				image: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728.jpg",
 				price: 10,
+				use_num: 1485,
+				status: 1
 			},
 			{
-				img: '/static/img/imgai/testImg.jpg',
-				cost: 101,
-				name: '测试模板',
-				uploadTime: '',
-				usedTime: 20,
+				id: 132,
+				created_at: "2024-11-20T14:51:08+08:00",
+				updated_at: "2024-12-21T22:13:06+08:00",
+				deleted_at: null,
+				label_id: 16,
+				name: "若隐若现",
+				icon: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728-thumb.jpg",
+				image: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728.jpg",
 				price: 10,
+				use_num: 1485,
+				status: 1
 			},
 		]
+	}
+	
+	const showAiChangeFace = ref(false)
+	
+	const item = ref(void 0)
+	const openDialog = (data) => {
+		console.log(data)
+		item.value = data
+		showAiChangeFace.value = true
 	}
 	
 	onMounted(() => {
@@ -137,7 +161,7 @@
 		 width: calc(100dvw - 40rpx);
 		 text-align: center;
 		 color: #cdcdcd;
-		 background: rgba(16, 133, 250, 0.1);
+		 background: #fff;
 		 border: 1px dashed #de6682;
 		 border-radius: 10rpx;
 		 display: flex;
@@ -166,6 +190,16 @@
 				 border-radius: 12rpx;
 			 }
 		 }
+	 }
+	 
+	 .aiChangeFace {
+		 position: absolute;
+		 top: 0;
+		 left: 0;
+		 width: 100dvw;
+		 height: 100dvh;
+		 background: #F5F5F5;
+		 z-index: 999;
 	 }
  }
  

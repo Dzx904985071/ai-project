@@ -36,8 +36,8 @@
 				</view>
 			</wd-upload>
 			<view class="buttonGroup">
-				<wd-button style="flex: 1">涂抹</wd-button>
-				<wd-button block plain style="">教程</wd-button>
+				<wd-button style="flex: 1; border-radius: 12rpx">涂抹</wd-button>
+				<wd-button type="warning" style="border-radius: 12rpx">教程</wd-button>
 			</view>
 			<view style="margin-bottom: 20rpx">
 				<wd-text type="primary" text="操作流程" bold></wd-text>
@@ -117,7 +117,7 @@
 			width: calc(100dvw - 40rpx);
 			text-align: center;
 			color: #a6a8aa;
-			background: rgba(16, 133, 250, 0.1);
+			background: #fff;
 			border: 1px dashed #de6682;
 			border-radius: 10rpx;
 			display: flex;

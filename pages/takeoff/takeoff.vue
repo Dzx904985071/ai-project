@@ -104,7 +104,7 @@ onMounted(() => {
 			width: calc(100dvw - 40rpx);
 			text-align: center;
 			color: #a6a8aa;
-			background: rgba(16, 133, 250, 0.1);
+			background: #fff;
 			border: 1px dashed #de6682;
 			border-radius: 10rpx;
 			display: flex;

@@ -37,7 +37,7 @@
 		
 		<view class="content">
 			<img v-if="!ifVideo(props.result.result_url)" :src="props.result.result_url" width="100%" />
-			<video v-else :src="props.result.result_url" controls="controls" style="width: 100%"></video>
+			<video v-else :src="props.result.result_url" controls="controls" style="width: 100%; height: 100%"></video>
 		</view>
 	</view>
 </template>

@@ -16,9 +16,9 @@
 		
 		<view class="modelList">
 			<wd-grid :bg-color="'transparent'" :column="2" :gutter="10">
-				<wd-grid-item v-for="item in modelList" use-slot>
+				<wd-grid-item v-for="item in modelList" use-slot @click="openDialog(item)">
 					<view class="modelListSlot">
-						<wd-img :src="item.img" style="width: 100%; height: 100%" :radius="8"></wd-img>
+						<wd-img :src="item.video_image" style="width: 100%; height: 100%" :radius="8"></wd-img>
 						<view>{{ item.name }}</view>
 						<view class="coinCost">
 							<wd-img
@@ -36,11 +36,16 @@
 				</wd-grid-item>
 			</wd-grid>
 		</view>
+		
+		<view v-if="showAiChangeFace" class="aiChangeFace">
+			<aiChangeFace @close="showAiChangeFace = false" :item="item"></aiChangeFace>
+		</view>
 	</view>
 </template>
 
 <script setup>
 	import { ref, reactive, shallowRef, onMounted } from 'vue';
+	import aiChangeFace from '../components/aiChangeFace/aiChangeFace.vue'
 	
 	const current = ref(0)
 	const list = ref([
@@ -82,22 +87,42 @@
 	const getModelList = () => {
 		modelList.value = [
 			{
-				img: '/static/img/imgai/testImg.jpg',
-				cost: 101,
-				name: '测试模板',
-				uploadTime: '',
-				usedTime: 20,
-				price: 10,
+				id: 39,
+				created_at: "2024-07-31T03:30:56+08:00",
+				updated_at: "2024-12-21T23:11:07+08:00",
+				deleted_at: null,
+				label_id: 14,
+				name: "HOT 性爱0005-9s",
+				icon: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736-thumb.jpg",
+				video_image: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736.jpg",
+				video: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920145367040.mp4",
+				price: 18,
+				use_num: 1809,
+				status: 1
 			},
 			{
-				img: '/static/img/imgai/testImg.jpg',
-				cost: 101,
-				name: '测试模板',
-				uploadTime: '',
-				usedTime: 20,
-				price: 10,
+				id: 124,
+				created_at: "2024-11-20T11:40:21+08:00",
+				updated_at: "2024-12-21T22:44:25+08:00",
+				deleted_at: null,
+				label_id: 14,
+				name: "HOT 性爱0041-12s",
+				icon: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080-thumb.jpg",
+				video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
+				video: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
+				price: 18,
+				use_num: 1514,
+				status: 1
 			},
 		]
+	}
+	
+	const showAiChangeFace = ref(false)
+	const item = ref(void 0)
+	const openDialog = (data) => {
+		console.log(data)
+		item.value = data
+		showAiChangeFace.value = true
 	}
 	
 	onMounted(() => {
@@ -122,8 +147,8 @@
 			width: calc(100dvw - 40rpx);
 			text-align: center;
 			color: #cdcdcd;
-			background: rgba(16, 133, 250, 0.1);
-			border: 1px dashed #10c5fa;
+			background: #fff;
+			border: 1px dashed #de6682;;
 			border-radius: 10rpx;
 			display: flex;
 			flex-direction: column;
@@ -151,6 +176,16 @@
 					border-radius: 12rpx;
 				}
 			}
+		}
+		
+		.aiChangeFace {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100dvw;
+			height: 100dvh;
+			background: #F5F5F5;
+			z-index: 999;
 		}
 	}
 

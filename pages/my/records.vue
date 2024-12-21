@@ -66,13 +66,13 @@
 				v-if="previewPopup"
 				v-model="previewPopup"
 				:closable="true"
-				custom-style="border-radius: 32rpx; height: calc(100dvh - 88px); width: 100dvw; display: flex; justify-content: center; align-items: center; z-index: 9999999"
+				custom-style="border-radius: 32rpx; height: calc(100dvh - 88rpx); width: 100dvw; display: flex; justify-content: center; align-items: center; z-index: 9999999; padding-top: 80rpx"
 				position="bottom"
 				transition="fade"
 				@close="previewPopup = false"
 			>
 				<img v-if="!ifVideo(previewUrl)" :src="previewUrl" alt="" width="100%" />
-				<video v-else :src="previewUrl" controls style="width: 100%"/>
+				<video v-else :src="previewUrl" controls style="width: 100%; height: 100%"/>
 			</wd-popup>
 			
 			<view v-if="showCheckResult" style="position: absolute; top: 44px; left: 0; z-index: 9999999; width: 100dvw; height: calc(100dvh - 44px); background:#f5f5f5;">
