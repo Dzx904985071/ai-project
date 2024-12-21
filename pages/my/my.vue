@@ -138,12 +138,18 @@
 			<wallet @close="showCostList = false"></wallet>
 		</view>
 		
+		<!--生成记录-->
+		<view v-if="showRecordsList" class="recordsList">
+			<records @close="showRecordsList = false"></records>
+		</view>
+		
 	</view>
 </template>
 
 <script setup>
 	import { ref, reactive, shallowRef, onMounted } from 'vue';
 	import wallet from './wallet.vue'
+	import records from './records.vue'
 	
 	const showUserInfo = ref(false)
 	
@@ -177,19 +183,19 @@
 		{
 			name: '财务明细',
 			img: '/static/img/pages/my/wallet.png',
-			dialog: 'showCostList',
+			dialog: 'costList',
 			buttonText: '查看'
 		},
 		{
 			name: '金币',
 			img: '/static/img/pages/my/coin.png',
-			dialog: '/pages/my/wallet',
+			dialog: '',
 			buttonText: '充值'
 		},
 		{
 			name: '生成记录',
 			img: '/static/img/pages/my/records.png',
-			dialog: '/pages/my/wallet',
+			dialog: 'recordsList',
 			buttonText: '查看'
 		},
 	])
@@ -225,14 +231,18 @@
 	
 	const openDialog = (dialog) => {
 		switch(dialog) {
-			case 'showCostList':
+			case 'costList':
 				showCostList.value = true
+				break
+			case 'recordsList':
+				showRecordsList.value = true
 				break
 			default: break
 		}
 	}
 	
 	const showCostList = ref(false)
+	const showRecordsList = ref(false)
 	
 	onMounted(() => {
 		getUserInfo()
@@ -319,6 +329,16 @@
 		width: 100dvw;
 		height: 100dvh;
 		background: #11151C;
-		z-index: 999999;
+		z-index: 999;
+	}
+	
+	.recordsList {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100dvw;
+		height: 100dvh;
+		background: #11151C;
+		z-index: 999;
 	}
 </style>

@@ -23,6 +23,9 @@ app.$mount()
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
 import { debounce } from "./utils/debounce";
+
+
+
 // 引入 hi-router
 import hiRouter from "/uni_modules/hi-router";
 export function createApp() {
