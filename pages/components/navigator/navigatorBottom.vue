@@ -3,7 +3,7 @@
 		<wd-tabbar
 			v-model="tabBar"
 			:bordered="false"
-			:inactive-color="'#ffffff'" bordered fixed
+			:inactive-color="'#969696'" bordered fixed
 			placeholder
 			safeAreaInsetBottom
 			@change="handleChangeNav"

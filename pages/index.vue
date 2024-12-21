@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<wd-config-provider theme="dark" :theme-vars="themeVars">
+		<wd-config-provider :theme-vars="themeVars">
 			<!--顶栏-->
 			<wd-sticky v-if="currentPage !== 'my'" :offset-top="-44">
 				<NavigatorTop style="width: 100dvw" ></NavigatorTop>
@@ -43,7 +43,7 @@
 	const currentPage = ref('takeoff'); // 默认页面是 'takeoff'
 	
 	const themeVars = reactive({
-		colorTheme: '#10c5fa'
+		colorTheme: '#de6682'
 	})
 	
 	// 更新页面时根据字符串更新 currentPage
@@ -53,8 +53,8 @@
 </script>
 
 <style scoped lang="scss">
-	.wot-theme-dark body {
-		color: #f5f5f5;
-		background-color: black;
+	.wot-theme-light body {
+		color: #000;
+		background-color: #fff;
 	}
 </style>

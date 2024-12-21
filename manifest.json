@@ -7,7 +7,7 @@
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
-        "darkmode" : true,
+        "darkmode" : false,
         "usingComponents" : true,
         "nvueStyleCompiler" : "uni-app",
         "compilerVersion" : 3,
@@ -124,7 +124,7 @@
     },
     "vueVersion" : "3",
     "h5" : {
-        "darkmode" : true,
+        "darkmode" : false,
         "themeLocation" : "theme.json",
         "title" : "ai换图",
         "router" : {
