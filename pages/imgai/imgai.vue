@@ -40,7 +40,7 @@
 								:height="14"
 								:width="14"
 								src="/static/img/components/navigator/coin.png"
-								style="margin: auto"
+								style="margin: auto 5rpx auto auto;"
 							>
 							</wd-img>
 							<view style="font-weight: bold; color: #fdc100;">
@@ -138,7 +138,7 @@
 		 text-align: center;
 		 color: #cdcdcd;
 		 background: rgba(16, 133, 250, 0.1);
-		 border: 1px dashed #10c5fa;
+		 border: 1px dashed #de6682;
 		 border-radius: 10rpx;
 		 display: flex;
 		 flex-direction: column;
@@ -156,7 +156,7 @@
 			 justify-content: center;
 			 
 			 .coinCost {
-				 background: rgba(0,0,0,.5);
+				 background: #DE6682;
 				 position: absolute;
 				 right: 12rpx;
 				 top: 12rpx;

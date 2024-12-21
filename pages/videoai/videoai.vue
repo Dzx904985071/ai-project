@@ -25,7 +25,7 @@
 								:height="14"
 								:width="14"
 								src="/static/img/components/navigator/coin.png"
-								style="margin: auto"
+								style="margin: auto 5rpx auto auto;"
 							>
 							</wd-img>
 							<view style="font-weight: bold; color: #fdc100;">
@@ -141,7 +141,7 @@
 				justify-content: center;
 				
 				.coinCost {
-					background: rgba(0,0,0,.5);
+					background: #DE6682;
 					position: absolute;
 					right: 12rpx;
 					top: 12rpx;
