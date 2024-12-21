@@ -9,18 +9,34 @@
 			@change="handleChangeNav"
 		>
 			<wd-tabbar-item
-				:icon="tabBar !== 'takeoff' ? '/static/img/components/navigator/fire_deactivate.svg' : '/static/img/components/navigator/fire_activate.svg'"
+				:icon="tabBar !== 'takeoff' ? '/static/img/components/navigator/takeoff_deactivate.png' : '/static/img/components/navigator/takeoff_activate.png'"
 				name="takeoff"
 				title="AI脱衣"
 			>
 			</wd-tabbar-item>
-			<wd-tabbar-item name="tumo" title="手动脱衣" icon="thumb-up">
+			<wd-tabbar-item
+				:icon="tabBar !== 'tumo' ? '/static/img/components/navigator/tumo_deactivate.png' : '/static/img/components/navigator/tumo_activate.png'"
+				name="tumo"
+				title="手动脱衣"
+			>
 			</wd-tabbar-item>
-			<wd-tabbar-item icon="picture" name="imgai" title="图片换脸">
+			<wd-tabbar-item
+				:icon="tabBar !== 'imgai' ? '/static/img/components/navigator/imgai_deactivate.png' : '/static/img/components/navigator/imgai_activate.png'"
+				name="imgai"
+				title="图片换脸"
+			>
 			</wd-tabbar-item>
-			<wd-tabbar-item name="videoai" title="视频换脸" icon="video">
+			<wd-tabbar-item
+				:icon="tabBar !== 'videoai' ? '/static/img/components/navigator/videoai_deactivate.png' : '/static/img/components/navigator/videoai_activate.png'"
+				name="videoai"
+				title="视频换脸"
+			>
 			</wd-tabbar-item>
-			<wd-tabbar-item icon="user" name="my" title="我的"></wd-tabbar-item>
+			<wd-tabbar-item
+				:icon="tabBar !== 'my' ? '/static/img/components/navigator/my_deactivate.png' : '/static/img/components/navigator/my_activate.png'"
+				name="my"
+				title="我的"
+			></wd-tabbar-item>
 		</wd-tabbar>
 	</view>
 </template>

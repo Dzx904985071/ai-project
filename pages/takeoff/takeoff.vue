@@ -39,7 +39,7 @@
 			<view style="margin-bottom: 20rpx">
 				<wd-text type="primary" text="效果示例图" bold></wd-text>
 			</view>
-			<wd-img src="/static/img/pages/takeoff/intro.jpg" class="introImg"></wd-img>
+			<wd-img src="/static/img/pages/takeoff/intro.png" class="introImg"></wd-img>
 			<view style="margin-bottom: 20rpx">
 				<wd-text type="primary" text="注意事项" bold></wd-text>
 			</view>
@@ -116,7 +116,7 @@ onMounted(() => {
 		
 		.introImg {
 			width: calc(100dvw - 40rpx);
-			height: 400rpx;
+			height: 540rpx;
 			margin-bottom: 32rpx
 		}
 		
