@@ -1,20 +1,24 @@
 <template>
 	<view>
 		<view class="titleContent">
-			单张制作费用:
-			<text style="color: #fdc100;">
-				<wd-img
-					:height="14"
-					:width="14"
-					src="/static/img/components/navigator/coin.png"
-				>
-				</wd-img>
-				0
-			</text>
-			, 会员次数:
-			<text style="color: #fdc100;">
-				0
-			</text>
+			<view>
+				单张制作费用:
+				<text style="color: #fdc100;">
+					<wd-img
+						:height="14"
+						:width="14"
+						src="/static/img/components/navigator/coin.png"
+					>
+					</wd-img>
+					0
+				</text>
+			</view>
+			<view>
+				会员次数:
+				<text style="color: #fdc100;">
+					0
+				</text>
+			</view>
 		</view>
 		<view class="contentInner">
 			<wd-upload
@@ -98,8 +102,11 @@
 		height: 42px;
 		line-height: 42px;
 		text-align: center;
-		background: #10c5fa;
+		font-size: 32rpx;
 		font-weight: bold;
+		display: flex;
+		justify-content: space-between;
+		padding: 0 20rpx;
 	}
 	
 	.contentInner {
@@ -109,9 +116,9 @@
 			height: 400rpx;
 			width: calc(100dvw - 40rpx);
 			text-align: center;
-			color: #cdcdcd;
+			color: #a6a8aa;
 			background: rgba(16, 133, 250, 0.1);
-			border: 1px dashed #10c5fa;
+			border: 1px dashed #de6682;
 			border-radius: 10rpx;
 			display: flex;
 			flex-direction: column;
