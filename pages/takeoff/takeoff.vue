@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="height: calc(100dvh - 142px); overflow-y: auto">
 		<view class="titleContent">
 			<view>
 				单张制作费用:
@@ -121,11 +121,13 @@ onMounted(() => {
 		}
 		
 		.warningText {
+			font-size: 24rpx;
 			margin-bottom: 16rpx;
 			color: #999999;
 		}
 		
 		.warningText:last-child {
+			font-size: 24rpx;
 			margin-bottom: 0;
 		}
 	}

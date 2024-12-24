@@ -1,6 +1,6 @@
 <template>
 	<view >
-		<navigator-top :showNotice="false"></navigator-top>
+		<navigator-top v-if="showTop" :showNotice="false" :showRecordsIcon="false"></navigator-top>
 		<wd-navbar :bordered="false" :shape="'round'">
 			<template #capsule>
 				<wd-icon name="chevron-left" size="28" @click="handleClose"></wd-icon>
@@ -75,7 +75,7 @@
 				<video v-else :src="previewUrl" controls style="width: 100%; height: 100%"/>
 			</wd-popup>
 			
-			<view v-if="showCheckResult" style="position: absolute; top: 44px; left: 0; z-index: 9999999; width: 100dvw; height: calc(100dvh - 44px); background:#f5f5f5;">
+			<view v-if="showCheckResult" :style="`position: absolute; top: ${showTop ? '44px' : 0}; left: 0; z-index: 9999999; width: 100dvw; height: calc(100dvh - 44px); background:#f5f5f5;`">
 				<check-result :result="resultInfo" @closeCheckResult="showCheckResult = false" ></check-result>
 			</view>
 			
@@ -95,6 +95,13 @@
 	const handleClose = () => {
 		emit("close");
 	};
+	
+	defineProps({
+		showTop: {
+			type: Boolean,
+			default: () => true,
+		}
+	})
 	
 	const typeList = ref([
 		{
@@ -206,6 +213,10 @@
 	const openDetails = (item) => {
 		resultInfo.value = item
 		showCheckResult.value = true
+	}
+	
+	const getResult = () => {
+		
 	}
 	
 </script>

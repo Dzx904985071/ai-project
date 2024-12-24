@@ -151,7 +151,7 @@
 		
 		<!--生成记录-->
 		<view v-if="showRecordsList" class="recordsList">
-			<records @close="showRecordsList = false"></records>
+			<records @close="showRecordsList = false" ></records>
 		</view>
 		
 	</view>

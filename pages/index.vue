@@ -10,7 +10,7 @@
 			<view class="content">
 				
 				<!-- 使用动态组件渲染当前页面 -->
-				<component :is="components[currentPage]" />
+				<component :is="components[currentPage]"/>
 			</view>
 
 			<!-- 底部导航栏 -->

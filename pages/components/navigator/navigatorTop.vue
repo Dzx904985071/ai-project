@@ -27,15 +27,12 @@
 				></wd-icon>
 			</template>
 			<template #right>
-				<wd-button size="small" style="margin-right: 5px; border-radius: 16rpx" type="primary" :round="false">
+				<wd-button size="small" style="margin-right: 5px; border-radius: 16rpx" type="primary" :round="false" @click="showRecharge">
 					<view style="width: 100rpx">
 						充值
 					</view>
 				</wd-button>
-				<wd-icon
-					name="list"
-					size="20"
-				></wd-icon>
+				<img v-if="showRecordsIcon" src="/static/img/components/navigator/recordsList.png" alt="" @click="showRecords">
 			</template>
 		</wd-navbar>
 		<view
@@ -53,11 +50,22 @@
 				<div style="font-size: 28rpx">域名存在被封禁风险，请保存登录凭证或设置用户名密码...本站永久域名：xxxx.xxx，请收藏！ </div>
 			</wd-notice-bar>
 		</view>
+		
+		<view v-if="showRecordsList" class="recordsList">
+			<records :show-top="false" @close="showRecordsList = false"></records>
+		</view>
+		
+		<view v-if="showRechargeList" class="rechargeList">
+			<recharge :show-top="false" @close="showRechargeList = false"></recharge>
+		</view>
+		
 	</view>
 </template>
 
 <script setup>
 	import { ref, onMounted, getCurrentInstance, defineProps } from 'vue'
+	import records from '../../my/records.vue'
+	import recharge from '../recharge/recharge.vue'
 	
 	import emitter from '/utils/emitter.js'  // 引入事件总线
 	import {httpRequest} from "../../../utils/request";
@@ -84,6 +92,10 @@
 	
 	defineProps({
 		showNotice: {
+			type: Boolean,
+			default: true
+		},
+		showRecordsIcon: {
 			type: Boolean,
 			default: true
 		}
@@ -133,6 +145,17 @@
 	
 	const refreshUser = debounce(getUserInfo, 2000)
 	
+	const showRecordsList = ref(false)
+	const showRechargeList = ref(false)
+	
+	const showRecords = () => {
+		showRecordsList.value = true
+	}
+	
+	const showRecharge = () => {
+		showRechargeList.value = true
+	}
+	
 	onMounted(async () => {
 		await getUserInfo()
 	})
@@ -176,5 +199,25 @@
 	
 	.refresh {
 	
+	}
+	
+	.recordsList {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100dvw;
+		height: 100dvh;
+		background: #F5F5F5;
+		z-index: 999;
+	}
+	
+	.rechargeList {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100dvw;
+		height: 100dvh;
+		background: #F5F5F5;
+		z-index: 999;
 	}
 </style>
