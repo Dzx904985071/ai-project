@@ -46,28 +46,29 @@
 <script setup>
 	import { ref, reactive, shallowRef, onMounted } from 'vue';
 	import aiChangeFace from '../components/aiChangeFace/aiChangeFace.vue'
+	import {httpRequest} from "../../utils/request";
 	
-	const current = ref(0)
+	const current = ref('')
 	const list = ref([
-		{
-			label: '热门',
-			value: 0
-		},
+		// {
+		// 	label: '热门',
+		// 	value: '0'
+		// },
 		{
 			label: '好乳',
-			value: 1
+			value: '1'
 		},
 		{
 			label: '全镜',
-			value: 2
+			value: '2'
 		},
 		{
 			label: '性爱',
-			value: 3
+			value: '3'
 		},
 		{
 			label: '亚美',
-			value: 4
+			value: '4'
 		}
 	])
 	
@@ -84,37 +85,59 @@
 	
 	const modelList = ref([])
 	
-	const getModelList = () => {
-		modelList.value = [
-			{
-				id: 39,
-				created_at: "2024-07-31T03:30:56+08:00",
-				updated_at: "2024-12-21T23:11:07+08:00",
-				deleted_at: null,
-				label_id: 14,
-				name: "HOT 性爱0005-9s",
-				icon: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736-thumb.jpg",
-				video_image: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736.jpg",
-				video: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920145367040.mp4",
-				price: 18,
-				use_num: 1809,
-				status: 1
-			},
-			{
-				id: 124,
-				created_at: "2024-11-20T11:40:21+08:00",
-				updated_at: "2024-12-21T22:44:25+08:00",
-				deleted_at: null,
-				label_id: 14,
-				name: "HOT 性爱0041-12s",
-				icon: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080-thumb.jpg",
-				video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
-				video: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
-				price: 18,
-				use_num: 1514,
-				status: 1
-			},
-		]
+	const getModelList = async (type, order) => {
+		try{
+			const res = await httpRequest({
+				url: '/',
+				method: 'GET',
+				data: {
+					ct: 'ai',
+					ac: 'swapVideoList',
+					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
+					page_size: 10,
+					page: 1,
+					order,
+					type
+				}
+			})
+			console.log(res)
+			if(res.code === 1) {
+				modelList.value = res.data.data
+			}
+		}
+		catch(e) {
+			console.log(e)
+		}
+		// modelList.value = [
+		// 	{
+		// 		id: 39,
+		// 		created_at: "2024-07-31T03:30:56+08:00",
+		// 		updated_at: "2024-12-21T23:11:07+08:00",
+		// 		deleted_at: null,
+		// 		label_id: 14,
+		// 		name: "HOT 性爱0005-9s",
+		// 		icon: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736-thumb.jpg",
+		// 		video_image: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736.jpg",
+		// 		video: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920145367040.mp4",
+		// 		price: 18,
+		// 		use_num: 1809,
+		// 		status: 1
+		// 	},
+		// 	{
+		// 		id: 124,
+		// 		created_at: "2024-11-20T11:40:21+08:00",
+		// 		updated_at: "2024-12-21T22:44:25+08:00",
+		// 		deleted_at: null,
+		// 		label_id: 14,
+		// 		name: "HOT 性爱0041-12s",
+		// 		icon: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080-thumb.jpg",
+		// 		video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
+		// 		video: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
+		// 		price: 18,
+		// 		use_num: 1514,
+		// 		status: 1
+		// 	},
+		// ]
 	}
 	
 	const showAiChangeFace = ref(false)
@@ -126,7 +149,8 @@
 	}
 	
 	onMounted(() => {
-		getModelList()
+		current.value = list.value[0].value
+		getModelList(current.value)
 	})
 
 </script>

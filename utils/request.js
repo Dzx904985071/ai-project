@@ -13,7 +13,6 @@ export const httpRequest = (options) => {
 			method: options.method || 'GET', //请求方法：传入的方法或者默认是“GET”
 			data: options.data || {}, //传递参数：传入的参数或者默认传递空集合
 			headers: {
-				'Content-Type': 'application/json',
 				'Authorization ': window.localStorage.getItem('token') //自定义请求头信息
 			},
 			success: (res) => {
@@ -34,4 +33,9 @@ export const httpRequest = (options) => {
 			}
 		})
 	})
+}
+
+export default {
+	baseURL,
+	showHttpLog,
 }
