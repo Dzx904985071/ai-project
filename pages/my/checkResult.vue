@@ -11,79 +11,132 @@
 					</view>
 				</template>
 			</wd-navbar>
-		
-		<view class="titleContent">
-			<view>
-				<text>
-					消耗金币:
-				</text>
-				<wd-img
-					:height="14"
-					:width="14"
-					src="/static/img/components/navigator/coin.png"
-				>
-				</wd-img>
-				<text style="color: #fdc100;">
-					0
-				</text>
+			
+			<view class="titleContent">
+				<view>
+					<text>
+						消耗金币:
+					</text>
+					<wd-img
+						:height="14"
+						:width="14"
+						src="/static/img/components/navigator/coin.png"
+					>
+					</wd-img>
+					<text style="color: #fdc100;">
+						0
+					</text>
+				</view>
+				<view style="font-size: 26rpx">
+					{{ props.result.pay_time }}
+				</view>
+				<!--<wd-button type="text">无水印下载</wd-button>-->
+				<text style="font-weight: 700; color: #de6683" @click="download">无水印下载</text>
 			</view>
-			<view style="font-size: 26rpx">
-				{{formatTime(props.result.created_at)}}
-			</view>
-		<!--<wd-button type="text">无水印下载</wd-button>-->
-			<text style="font-weight: 700; color: #DE6683" @click="download">无水印下载</text>
-		</view>
 		</view>
 		
 		<view class="content">
-			<img v-if="!ifVideo(props.result.result_url)" :src="props.result.result_url" width="100%" />
-			<video v-else :src="props.result.result_url" controls="controls" style="width: 100%; height: 100%"></video>
+			<img v-if="!ifVideo(props.result.result_url)" :src="props.result.result_url" width="100%" alt=""/>
+			<video
+				v-else :src="props.result.result_url" controls="controls" style="width: 100%; height: 100%"
+			></video>
 		</view>
 	</view>
 </template>
 
 <script setup>
-	import { ref, reactive, shallowRef, onMounted, defineEmits, defineProps, watch } from 'vue';
-	import { formatTime } from '../../utils/formatTime.js'
+	import {ref, reactive, shallowRef, onMounted, defineEmits, defineProps, watch} from "vue";
+	import {formatTime} from "../../utils/formatTime.js";
 	
 	const emit = defineEmits(["closeCheckResult"]);
 	
 	const handleCheckClose = () => {
-		emit("closeCheckResult")
-	}
+		emit("closeCheckResult");
+	};
 	
 	const props = defineProps({
 		result: {
 			type: Object,
 			default: {
-				money: 10,
-				source_url: "",
-				target_url: "",
-				result_url: "",
-				video_image: "",
+				id: "",
+				order_id: "",
+				coin: "10.00",
+				order_time: "",
+				pay_time: "",
+				order_ip: "",
+				user_id: "",
 				task_id: "",
-				status: 3,
-				type: 1,
-				created_at: "2024-12-19T12:52:36+08:00"
+				type: "2",
+				status: "3",
+				result_url: "",
+				file_url: ""
 			}
 		}
-	})
+	});
 	
 	
 	const ifVideo = (url) => {
-		return url.indexOf(".mp4") > -1
-	}
+		return url.indexOf(".mp4") > - 1;
+	};
 	
 	onMounted(() => {
-		console.log(props.result)
-	})
+		console.log(props.result);
+	});
 	
-	const download = () => {}
-	
+	const download = () => {
+		uni.downloadFile({
+			url: props.result.result_url,
+			header: {
+				"Access-Control-Allow-Origin": "*",
+			},
+			success: (res) => {
+				if(res.statusCode === 200){
+					uni.saveFile({
+						tempFilePath: res.tempFilePath,
+						success: (saveRes) => {
+							// 文件保存成功，可以提示用户
+							uni.showToast({
+								title: "文件下载成功",
+								icon: "success"
+							});
+							// 可以选择将文件路径保存起来，以便用户后续查看
+							console.log("文件保存路径:", saveRes.savedFilePath);
+						},
+						fail: (err) => {
+							// 文件保存失败
+							uni.showToast({
+								title: "文件保存失败",
+								icon: "none"
+							});
+							console.error("文件保存失败:", err);
+						}
+					});
+				}
+				else {
+					// 下载失败
+					uni.showToast({
+						title: "文件下载失败",
+						icon: "none"
+					});
+					console.error("文件下载失败:", res);
+				}
+			},
+			fail: (err) => {
+				// 下载失败
+				uni.showToast({
+					title: "文件下载失败",
+					icon: "none"
+				});
+				console.error("文件下载失败:", err);
+			}
+		});
+	};
+
+
 </script>
 
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 	.titleContent {
 		height: 42px;
 		line-height: 42px;
@@ -101,5 +154,5 @@
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 </style>

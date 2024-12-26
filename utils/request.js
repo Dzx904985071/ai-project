@@ -2,7 +2,7 @@ let baseURL = '';
 // 是否在控制台显示接口请求日志,本地环境启用,打包环境禁用
 let showHttpLog = false;
 // 测试环境
-baseURL = 'https://jsonplaceholder.typicode.com/';
+baseURL = 'http://192.168.2.2:8080/api';
 // 正式环境
 // baseURL = 'XXXXX.XXXXX.com';
 
@@ -13,10 +13,12 @@ export const httpRequest = (options) => {
 			method: options.method || 'GET', //请求方法：传入的方法或者默认是“GET”
 			data: options.data || {}, //传递参数：传入的参数或者默认传递空集合
 			headers: {
+				'Content-Type': 'application/json',
 				'Authorization ': window.localStorage.getItem('token') //自定义请求头信息
 			},
 			success: (res) => {
 				//返回的数据（不固定，看后端接口，这里是做了一个判断，如果不为true，用uni.showToast方法提示获取数据失败)
+				// console.log(res.statusCode)
 				if (res.statusCode !== 200 && res.statusCode !== 201) {
 					return uni.showToast({
 						title: '错误代码: ' + res.statusCode + ', 错误信息: ' + res.errMsg,

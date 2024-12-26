@@ -132,7 +132,17 @@
             "base" : "./"
         },
         "devServer" : {
-            "port" : 8080
+            "port" : 8080,
+            "proxy" : {
+                "/api" : {
+                    "target" : "http://www.bobogame.vip/",
+                    "changeOrigin" : true,
+                    "secure": false,
+                    "pathRewrite" : {
+                        "^/api": ""
+                    }
+                }
+            }
         }
     }
 }

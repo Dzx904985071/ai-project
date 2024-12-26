@@ -39,21 +39,21 @@
 								style="margin-right: 5rpx"
 							>
 							</wd-img>
-							<text style="font-weight: bold; color: #ffbe20">{{ item.money }}</text>
+							<text style="font-weight: bold; color: #ffbe20">{{ item.coin }}</text>
 						</view>
 						<view style="color: #DE6683; font-weight: bold">
-							{{ statusList.find(i => i.value == item.status).label }}
+							{{ statusList.find(i => i.value === item.status).label }}
 						</view>
 						<view style="">
-							{{ formatTime(item.created_at) }}
+							{{ item.pay_time }}
 						</view>
 					</view>
 					<view style="display: flex; justify-content: space-between; align-items: center;background-color: #fff; padding: 20rpx">
 						<view style="display: flex; justify-content: flex-start; flex: 1">
-							<img :src="item.video_image || item.source_url" alt="" style="height: 110rpx; margin-right: 24rpx" @click="preview(item.source_url)"/>
+							<img :src="item.file_url" alt="" style="height: 110rpx; margin-right: 24rpx" @click="preview(item.file_url)"/>
 							<img :src="item.target_url" alt="" style="height: 110rpx" @click="preview(item.target_url)"/>
 						</view>
-						<wd-button v-if="item.status === 3" :round="false" type="primary" @click="openDetails(item)">查看结果</wd-button>
+						<wd-button v-if="item.status === '3'" :round="false" type="primary" @click="openDetails(item)">查看结果</wd-button>
 					</view>
 				</view>
 			</view>
@@ -84,11 +84,13 @@
 </template>
 
 <script setup>
-	import {ref, reactive, shallowRef, onMounted, defineEmits} from "vue";
+	import {ref, reactive, shallowRef, onMounted, defineEmits, watch} from "vue";
 	import navigatorTop from "../components/navigator/navigatorTop.vue";
 	
 	import { formatTime } from '../../utils/formatTime.js'
 	import CheckResult from "./checkResult.vue";
+	
+	import {httpRequest} from "../../utils/request.js"
 	
 	const emit = defineEmits(["close"]);
 	
@@ -106,86 +108,77 @@
 	const typeList = ref([
 		{
 			label: "全部",
-			value: 0
+			value: '0'
 		},
 		{
 			label: "AI脱衣",
-			value: 1
+			value: '1'
 		},
 		{
 			label: "手动脱衣",
-			value: 2
+			value: '2'
 		},
 		{
 			label: "图片换脸",
-			value: 3
+			value: '3'
 		},
 		{
 			label: "视频换脸",
-			value: 4
+			value: '4'
 		},
 	])
 	const currentType = ref(0)
 	const statusList = ref([
 		{
 			label: "全部",
-			value: 0
+			value: '0'
 		},
 		{
 			label: "排队中",
-			value: 1
+			value: '1'
 		},
 		{
 			label: "处理中",
-			value: 2
+			value: '2'
 		},
 		{
 			label: "处理成功",
-			value: 3
+			value: '3'
 		},
 		{
 			label: "处理失败",
-			value: 4
+			value: '4'
 		},
 	])
 	const currentStatus = ref(0)
 	
 	const result = ref({
 		list: [
-			{
-				money: 10,
-				source_url: "https://kankan991body.cyou/storage/2024-12-19/undress_source_1054259934042005504.png",
-				target_url: "https://kankan991body.cyou/storage/2024-12-19/undress_mask_1054259934042005504.png",
-				result_url: "https://kankan991body.cyou/storage/2024-12-19/result/2cc9a0de-6031-4ac3-aa91-19c8abcee2cf.jpg",
-				// 原视频地址
-				video_image: "",
-				task_id: "29eecf5d-694a-4be4-a850-b7a842612f69",
-				status: 3,
-				type: 2,
-				created_at: "2024-12-19T12:52:36+08:00"
-			},
-			{
-				money: 10,
-				source_url: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
-				target_url: "https://kankan991body.cyou/storage/2024-12-19/video_target_1054336608687366144.png",
-				result_url: "https://kankan991body.cyou/storage/2024-12-19/result/3d181c5a-02f3-4b17-a1b0-d6e4bcacef41.mp4",
-				video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
-				task_id: "29eecf5d-694a-4be4-a850-b7a842612f69",
-				status: 3,
-				type: 2,
-				created_at: "2024-12-19T12:52:36+08:00"
-			},
-			{
-				money: 10,
-				source_url: "https://kankan991body.cyou/storage/2024-12-19/undress_source_1054259934042005504.png",
-				target_url: "https://kankan991body.cyou/storage/2024-12-19/undress_mask_1054259934042005504.png",
-				result_url: "https://kankan991body.cyou/storage/2024-12-19/result/2cc9a0de-6031-4ac3-aa91-19c8abcee2cf.jpg",
-				video_image: "",
-				task_id: "29eecf5d-694a-4be4-a850-b7a842612f69",
-				status: 3,
-				type: 2,
-				created_at: "2024-12-19T12:52:36+08:00"
-			},
+			// {
+			// 	id: "14",
+			// 	order_id: "AI202412232220564498",
+			// 	coin: "10.00",
+			// 	order_time: "2024-12-23 22:20:56",
+			// 	pay_time: "2024-12-23 22:20:56",
+			// 	order_ip: "110.184.226.82",
+			// 	user_id: "5",
+			// 	task_id: "10c4e17e-7955-45c2-a521-4e91f7c433cc",
+			// 	type: "2",
+			// 	status: "3",
+			// 	result_url: "http://sharingan.cyou/storage/2024-12-23/108aa977-d0aa-4135-bf9d-c4bf14275cf7/e878a146-0fca-48c9-8776-5c8a3409aa36-resultUrl.jpg",
+			// 	file_url: "http://www.bobogame.vip/static/uploads/ai/api_image/2024122322205629863.jpg"
+			// },
+			// {
+			// 	money: 10,
+			// 	source_url: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
+			// 	target_url: "https://kankan991body.cyou/storage/2024-12-19/video_target_1054336608687366144.png",
+			// 	result_url: "https://kankan991body.cyou/storage/2024-12-19/result/3d181c5a-02f3-4b17-a1b0-d6e4bcacef41.mp4",
+			// 	video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
+			// 	task_id: "29eecf5d-694a-4be4-a850-b7a842612f69",
+			// 	status: '3',
+			// 	type: '2',
+			// 	created_at: "2024-12-19T12:52:36+08:00"
+			// },
 		],
 		pager: {
 			current_page: 1,
@@ -215,9 +208,66 @@
 		showCheckResult.value = true
 	}
 	
-	const getResult = () => {
-		
+	const getResult = async (type, status) => {
+		try {
+			const res = await httpRequest({
+				url: '/',
+				method: 'GET',
+				data: {
+					ct: 'ai',
+					ac: 'aiOrder',
+					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
+					type:1,
+					status: 1,
+				}
+			})
+			// const res = {
+			// 	statusCode: 200,
+			// 	data: {
+			// 		code: 0,
+			// 		message: '',
+			// 		data: [
+			// 			{
+			// 				id: "14",
+			// 				order_id: "AI202412232220564498",
+			// 				coin: "10.00",
+			// 				order_time: "2024-12-23 22:20:56",
+			// 				pay_time: "2024-12-23 22:20:56",
+			// 				order_ip: "110.184.226.82",
+			// 				user_id: "5",
+			// 				task_id: "10c4e17e-7955-45c2-a521-4e91f7c433cc",
+			// 				type: "2",
+			// 				status: "3",
+			// 				result_url: "http://sharingan.cyou/storage/2024-12-23/108aa977-d0aa-4135-bf9d-c4bf14275cf7/e878a146-0fca-48c9-8776-5c8a3409aa36-resultUrl.jpg",
+			// 				file_url: "http://www.bobogame.vip/static/uploads/ai/api_image/2024122322205629863.jpg"
+			// 			}
+			// 		]
+			// 	},
+			// }
+			// console.log(res)
+			if(res.data.code === 0 && res.data) {
+				result.value.list = res.data.data
+			}
+			else {
+				console.log(res)
+			}
+			uni.showToast({
+				title: res.data.message,
+				icon: 'none'
+			})
+		}
+		catch(e) {
+			console.log(e)
+		}
 	}
+	
+	watch([currentType, currentStatus], ([newType, newStatus]) => {
+		getResult(newType, newStatus);
+	})
+	
+	onMounted(async () => {
+		await getResult(currentType.value, currentStatus.value)
+	})
 	
 </script>
 
