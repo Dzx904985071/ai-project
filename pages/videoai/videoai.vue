@@ -19,7 +19,7 @@
 				<wd-grid-item v-for="item in modelList" use-slot @click="openDialog(item)">
 					<view class="modelListSlot">
 						<wd-img :src="item.video_image" style="width: 100%; height: 100%" :radius="8"></wd-img>
-						<view>{{ item.name }}</view>
+						<view>{{ item.title }}</view>
 						<view class="coinCost">
 							<wd-img
 								:height="14"
@@ -35,6 +35,8 @@
 					</view>
 				</wd-grid-item>
 			</wd-grid>
+			<wd-button v-if="current_page < last_page" type="primary" @click="getModelList(current_page + 1, current.value)">加载更多</wd-button>
+			<wd-divider v-else>暂无更多数据</wd-divider>
 		</view>
 		
 		<view v-if="showAiChangeFace" class="aiChangeFace">
@@ -85,7 +87,10 @@
 	
 	const modelList = ref([])
 	
-	const getModelList = async (type, order) => {
+	const current_page = ref(1)
+	const last_page = ref(2)
+	
+	const getModelList = async (page, type, order) => {
 		try{
 			const res = await httpRequest({
 				url: '/',
@@ -95,49 +100,21 @@
 					ac: 'swapVideoList',
 					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
 					page_size: 10,
-					page: 1,
+					page,
 					order,
 					type
 				}
 			})
 			console.log(res)
-			if(res.code === 1) {
-				modelList.value = res.data.data
+			if(res.data.code === 1) {
+				modelList.value.push(...res.data.data)
+				current_page.value = Number(res.data.current_page);
+				last_page.value = res.data.last_page;
 			}
 		}
 		catch(e) {
 			console.log(e)
 		}
-		// modelList.value = [
-		// 	{
-		// 		id: 39,
-		// 		created_at: "2024-07-31T03:30:56+08:00",
-		// 		updated_at: "2024-12-21T23:11:07+08:00",
-		// 		deleted_at: null,
-		// 		label_id: 14,
-		// 		name: "HOT 性爱0005-9s",
-		// 		icon: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736-thumb.jpg",
-		// 		video_image: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920141172736.jpg",
-		// 		video: "https://kankan991body.cyou/storage/tl_video/2024_07_29/1002417920145367040.mp4",
-		// 		price: 18,
-		// 		use_num: 1809,
-		// 		status: 1
-		// 	},
-		// 	{
-		// 		id: 124,
-		// 		created_at: "2024-11-20T11:40:21+08:00",
-		// 		updated_at: "2024-12-21T22:44:25+08:00",
-		// 		deleted_at: null,
-		// 		label_id: 14,
-		// 		name: "HOT 性爱0041-12s",
-		// 		icon: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080-thumb.jpg",
-		// 		video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
-		// 		video: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
-		// 		price: 18,
-		// 		use_num: 1514,
-		// 		status: 1
-		// 	},
-		// ]
 	}
 	
 	const showAiChangeFace = ref(false)
@@ -150,7 +127,7 @@
 	
 	onMounted(() => {
 		current.value = list.value[0].value
-		getModelList(current.value)
+		getModelList(current_page.value, current.value)
 	})
 
 </script>

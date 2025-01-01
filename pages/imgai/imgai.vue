@@ -34,7 +34,7 @@
 				<wd-grid-item v-for="item in modelList" use-slot @click="openDialog(item)">
 					<view class="modelListSlot">
 						<wd-img :src="item.image" style="width: 100%; height: 100%" :radius="8"></wd-img>
-						<view>{{ item.name }}</view>
+						<view>{{ item.title }}</view>
 						<view class="coinCost">
 							<wd-img
 								:height="14"
@@ -50,6 +50,8 @@
 					</view>
 				</wd-grid-item>
 			</wd-grid>
+			<wd-button v-if="current_page < last_page" type="primary" @click="getModelList(current_page + 1, current.value)">加载更多</wd-button>
+			<wd-divider v-else>暂无更多数据</wd-divider>
 		</view>
 		
 		<view v-if="showAiChangeFace" class="aiChangeFace">
@@ -99,8 +101,11 @@
 	}
 	
 	const modelList = ref([])
+	const current_page = ref(1)
+	const last_page = ref(2)
 	
-	const getModelList = async (type, order) => {
+	const getModelList = async (page, type, order) => {
+		if (page >= last_page.value) return;
 		try{
 			const res = await httpRequest({
 				url: '/',
@@ -110,47 +115,22 @@
 					ac: 'swapImageList',
 					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
 					page_size: 10,
-					page: 1,
+					page,
 					order,
 					type
 				}
 			})
 			console.log(res)
-			if(res.code === 1) {
-				modelList.value = res.data.data
+			if(res.data.code === 1) {
+				modelList.value.push(...res.data.data)
+				// 提前计算并存储值，避免重复计算
+				current_page.value = Number(res.data.current_page);
+				last_page.value = res.data.last_page;
 			}
 		}
 		catch(e) {
 			console.log(e)
 		}
-		// modelList.value = [
-		// 	{
-		// 		id: 132,
-		// 		created_at: "2024-11-20T14:51:08+08:00",
-		// 		updated_at: "2024-12-21T22:13:06+08:00",
-		// 		deleted_at: null,
-		// 		label_id: 16,
-		// 		name: "若隐若现",
-		// 		icon: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728-thumb.jpg",
-		// 		image: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728.jpg",
-		// 		price: 10,
-		// 		use_num: 1485,
-		// 		status: 1
-		// 	},
-		// 	{
-		// 		id: 132,
-		// 		created_at: "2024-11-20T14:51:08+08:00",
-		// 		updated_at: "2024-12-21T22:13:06+08:00",
-		// 		deleted_at: null,
-		// 		label_id: 16,
-		// 		name: "若隐若现",
-		// 		icon: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728-thumb.jpg",
-		// 		image: "https://kankan991body.cyou/storage/tl_image/2024-11-20/1043780519419977728.jpg",
-		// 		price: 10,
-		// 		use_num: 1485,
-		// 		status: 1
-		// 	},
-		// ]
 	}
 	
 	const showAiChangeFace = ref(false)
@@ -164,7 +144,7 @@
 	
 	onMounted(() => {
 		current.value = list.value[0].value
-		getModelList(current.value)
+		getModelList(current_page.value, current.value)
 	})
 	
 </script>
