@@ -24,7 +24,7 @@
 					>
 					</wd-img>
 					<text style="color: #fdc100;">
-						0
+						{{ props.result.coin }}
 					</text>
 				</view>
 				<view style="font-size: 26rpx">
@@ -90,6 +90,7 @@
 				"Access-Control-Allow-Origin": "*",
 			},
 			success: (res) => {
+				console.log(res);
 				if(res.statusCode === 200){
 					uni.saveFile({
 						tempFilePath: res.tempFilePath,

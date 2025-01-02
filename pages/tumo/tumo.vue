@@ -10,7 +10,7 @@
 						src="/static/img/components/navigator/coin.png"
 					>
 					</wd-img>
-					0
+					10
 				</text>
 			</view>
 			<view>

@@ -27,7 +27,7 @@
 				></wd-icon>
 			</template>
 			<template #right>
-				<wd-button size="small" style="margin-right: 5px; border-radius: 16rpx" type="primary" :round="false" @click="showRecharge">
+				<wd-button size="small" style="margin-right: 5px; border-radius: 16rpx; display: none" type="primary" :round="false" @click="showRecharge">
 					<view style="width: 100rpx">
 						充值
 					</view>

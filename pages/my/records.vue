@@ -28,7 +28,7 @@
 			</wd-segmented>
 			
 			<view class="recordList">
-				<view v-for="item in result.list" class="recordListContent">
+				<view v-for="item in result" class="recordListContent">
 					<view style="display: flex; justify-content: space-between; padding: 20rpx">
 						<view style="font-weight: bold; color: #DE6683">
 							<text>消耗金币: </text>
@@ -51,7 +51,7 @@
 					<view style="display: flex; justify-content: space-between; align-items: center;background-color: #fff; padding: 20rpx">
 						<view style="display: flex; justify-content: flex-start; flex: 1">
 							<img :src="item.file_url" alt="" style="height: 110rpx; margin-right: 24rpx" @click="preview(item.file_url)"/>
-							<img :src="item.target_url" alt="" style="height: 110rpx" @click="preview(item.target_url)"/>
+							<!--<img :src="item.target_url" alt="" style="height: 110rpx" @click="preview(item.target_url)"/>-->
 						</view>
 						<wd-button v-if="item.status === '3'" :round="false" type="primary" @click="openDetails(item)">查看结果</wd-button>
 					</view>
@@ -152,41 +152,7 @@
 	])
 	const currentStatus = ref(0)
 	
-	const result = ref({
-		list: [
-			// {
-			// 	id: "14",
-			// 	order_id: "AI202412232220564498",
-			// 	coin: "10.00",
-			// 	order_time: "2024-12-23 22:20:56",
-			// 	pay_time: "2024-12-23 22:20:56",
-			// 	order_ip: "110.184.226.82",
-			// 	user_id: "5",
-			// 	task_id: "10c4e17e-7955-45c2-a521-4e91f7c433cc",
-			// 	type: "2",
-			// 	status: "3",
-			// 	result_url: "http://sharingan.cyou/storage/2024-12-23/108aa977-d0aa-4135-bf9d-c4bf14275cf7/e878a146-0fca-48c9-8776-5c8a3409aa36-resultUrl.jpg",
-			// 	file_url: "http://www.bobogame.vip/static/uploads/ai/api_image/2024122322205629863.jpg"
-			// },
-			// {
-			// 	money: 10,
-			// 	source_url: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504214773760.mp4",
-			// 	target_url: "https://kankan991body.cyou/storage/2024-12-19/video_target_1054336608687366144.png",
-			// 	result_url: "https://kankan991body.cyou/storage/2024-12-19/result/3d181c5a-02f3-4b17-a1b0-d6e4bcacef41.mp4",
-			// 	video_image: "https://kankan991body.cyou/storage/tl_video/2024-11-20/1043732504026030080.jpg",
-			// 	task_id: "29eecf5d-694a-4be4-a850-b7a842612f69",
-			// 	status: '3',
-			// 	type: '2',
-			// 	created_at: "2024-12-19T12:52:36+08:00"
-			// },
-		],
-		pager: {
-			current_page: 1,
-			last_page: 1,
-			total: 1,
-			page_size: 20
-		}
-	})
+	const result = ref([])
 	
 	const previewPopup = ref(false)
 	const showCheckResult = ref(false)
@@ -217,44 +183,17 @@
 					ct: 'ai',
 					ac: 'aiOrder',
 					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
-					type:1,
-					status: 1,
+					type,
+					status
 				}
 			})
-			// const res = {
-			// 	statusCode: 200,
-			// 	data: {
-			// 		code: 0,
-			// 		message: '',
-			// 		data: [
-			// 			{
-			// 				id: "14",
-			// 				order_id: "AI202412232220564498",
-			// 				coin: "10.00",
-			// 				order_time: "2024-12-23 22:20:56",
-			// 				pay_time: "2024-12-23 22:20:56",
-			// 				order_ip: "110.184.226.82",
-			// 				user_id: "5",
-			// 				task_id: "10c4e17e-7955-45c2-a521-4e91f7c433cc",
-			// 				type: "2",
-			// 				status: "3",
-			// 				result_url: "http://sharingan.cyou/storage/2024-12-23/108aa977-d0aa-4135-bf9d-c4bf14275cf7/e878a146-0fca-48c9-8776-5c8a3409aa36-resultUrl.jpg",
-			// 				file_url: "http://www.bobogame.vip/static/uploads/ai/api_image/2024122322205629863.jpg"
-			// 			}
-			// 		]
-			// 	},
-			// }
-			// console.log(res)
-			if(res.data.code === 0 && res.data) {
-				result.value.list = res.data.data
-			}
-			else {
-				console.log(res)
-			}
-			uni.showToast({
-				title: res.data.message,
-				icon: 'none'
-			})
+			console.log(res.data)
+			result.value = res.data
+			console.log(result.value)
+			// uni.showToast({
+			// 	title: res.data.message,
+			// 	icon: 'none'
+			// })
 		}
 		catch(e) {
 			console.log(e)

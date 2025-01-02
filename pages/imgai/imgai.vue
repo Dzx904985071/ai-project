@@ -21,7 +21,7 @@
 			action="https://ftf.jd.com/api/uploadImg"
 			@change="handleChange"
 		>
-			<view class="uploadButtonInner_noImg">
+			<view class="uploadButtonInner_noImg_imageAiMain">
 				<view style="display: flex; justify-content: center; align-items: center">
 					<wd-icon name="cloud-upload" size="32" style="margin-right: 12rpx;"></wd-icon>
 					<wd-text text="点击上传自定义模板"></wd-text>
@@ -162,7 +162,7 @@
 		 gap: 12rpx;
 	 }
 	 
-	 .uploadButtonInner_noImg {
+	 .uploadButtonInner_noImg_imageAiMain {
 		 height: 100rpx;
 		 width: calc(100dvw - 40rpx);
 		 text-align: center;

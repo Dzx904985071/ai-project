@@ -14,20 +14,25 @@
 		<view class="itemContent">
 			<view class="videoAndImgWithUpload">
 				<img :src="props.item.video_image ?? props.item.image" alt="" style="width: 50%" @click="previewPopup = true">
-				<wd-upload
-					:action="uploadAction"
-					:max-size="5242880"
-					:limit="1"
-					action="https://ftf.jd.com/api/uploadImg"
-					@change="handleChange"
-				>
-					<view class="uploadButtonInner_noImg">
-						<wd-icon name="cloud-upload" size="45"></wd-icon>
-						<view style="margin-bottom: 32rpx"></view>
-						<view>点击上传人物图片</view>
-						<view>图片大小不超过5MB</view>
+				<view id="upload" class="uploadButtonInner_noImg" @click="chooseImg">
+					<wd-icon v-if="customFile === null" name="cloud-upload" size="45"></wd-icon>
+					<view v-if="customFile === null" style="margin-bottom: 32rpx"></view>
+					<view v-if="customFile === null">点击上传人物图片</view>
+					<view v-if="customFile === null">图片大小不超过5MB</view>
+				</view>
+			</view>
+			
+			<view v-if="customFile" style="margin-bottom: 32rpx">
+				
+				<view style="width: 100%; display: flex; justify-content: space-between; align-items: center; font-weight: bold">
+					<view>
+						<text>消耗金币:&nbsp;</text>
+						<text style="color: #fdc100;">{{ props.item.price }}</text>
+						<text>, 会员次数:&nbsp</text>
+						<text style="color: #fdc100;">0</text>
 					</view>
-				</wd-upload>
+					<wd-button style="" @click="deal">制作</wd-button>
+				</view>
 			</view>
 			
 			<view style="margin-bottom: 20rpx">
@@ -44,11 +49,6 @@
 				</wd-text>
 			</view>
 		</view>
-		
-		<view class="buttonContent">
-		
-		</view>
-		
 		<wd-popup
 			v-if="previewPopup"
 			v-model="previewPopup"
@@ -80,26 +80,51 @@
 			type: Object,
 			default: () => ({
 				id: 0,
+				type: "",
+				title: "",
+				price: null,
+				video: null,
+				video_image: null,
+				num: "",
 				created_at: "",
 				updated_at: "",
-				deleted_at: null,
-				label_id: 0,
-				name: "",
-				icon: "",
-				image: "",
-				price: 10,
-				use_num: 0,
-				status: 1,
-				video_image: "",
-				video: "",
+				image: null,
 			})
 		}
 	})
 	
-	const uploadAction = ref('https://ftf.jd.com/api/uploadImg')
+	const customFile = ref(null)
 	
-	const handleChange = () => {
-	
+	const chooseImg = () => {
+		uni.chooseImage({
+			count: 1,
+			sizeType: ['original', 'compressed'],
+			sourceType: ['album', 'camera'],
+			success: (res) => {
+				console.log('图片路径为：', res.tempFilePaths[0])
+				let blobUrl = res.tempFilePaths[0]
+				document.getElementsByClassName('uploadButtonInner_noImg')[0].style.background = "url('" + blobUrl + "') no-repeat";
+				document.getElementsByClassName('uploadButtonInner_noImg')[0].style.backgroundSize = "contain";
+				document.getElementsByClassName('uploadButtonInner_noImg')[0].style.backgroundPosition = "center center";
+				fetch(blobUrl)
+					.then(response => response.blob())  // 将响应转换为 Blob
+					.then(blob => {
+						// 使用 File 构造函数将 Blob:URL 转换为 File 对象
+						
+						const mimeType = blob.type;
+						const file = new File([blob], `upload_${Date.now()}.jpg`, { type: blob.type });
+						customFile.value = file
+						console.log(file)
+						// 你可以在这里使用 file 对象进行后续操作，例如上传文件等
+					})
+					.catch(error => {
+						console.error('Error fetching blob:', error);
+					});
+			},
+			fail: (err) => {              //图片接口调用失败的回调函数
+				console.log('chooseImage fail', err)
+			},
+		})
 	}
 	
 	const warningList = ref([
@@ -113,6 +138,49 @@
 	const previewPopup = ref(false)
 	const ifVideo = (url) => {
 		return url.indexOf(".mp4") > -1
+	}
+	
+	const deal = () => {
+		if(customFile.value === null) {
+			uni.showToast({
+				title: '请上传人物图片',
+				icon: 'error'
+			})
+		}
+		else {
+			uni.showToast({
+				title: '正在制作中...'
+			})
+			try {
+				const params = {
+					ct: "ai",
+					ac: props.image.length > 0 ? 'imageSwap' : 'videoSwap',
+					token: 'g/bJd4AK_IzeMJ3hhNpNdw=='
+				}
+				const queryString = Object.keys(params)
+					.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+					.join('&');
+				console.log(queryString)
+				const requestUrl = 'api/?' + queryString;
+				console.log(requestUrl)
+				let formData = new FormData();
+				formData.append('target_image', customFile.value);
+				if(props.image.length > 0) {
+					formData.append('type', 2)
+					formData.append('tl_image_id', props.item.id)
+				}
+				if(props.video_image.length > 0) {
+					formData.append('tl_video_id', props.item.id)
+				}
+				
+				for (let pair of formData.entries()) {
+					console.log(pair[0] + ': ' + pair[1]);
+				}
+			}
+			catch(e) {
+				console.log(e)
+			}
+		}
 	}
 	
 	onMounted(() => {

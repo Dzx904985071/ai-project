@@ -32,11 +32,11 @@
 				title="视频换脸"
 			>
 			</wd-tabbar-item>
-			<wd-tabbar-item
-				:icon="tabBar !== 'my' ? '/static/img/components/navigator/my_deactivate.png' : '/static/img/components/navigator/my_activate.png'"
-				name="my"
-				title="我的"
-			></wd-tabbar-item>
+			<!--<wd-tabbar-item-->
+			<!--	:icon="tabBar !== 'my' ? '/static/img/components/navigator/my_deactivate.png' : '/static/img/components/navigator/my_activate.png'"-->
+			<!--	name="my"-->
+			<!--	title="我的"-->
+			<!--&gt;</wd-tabbar-item>-->
 		</wd-tabbar>
 	</view>
 </template>
