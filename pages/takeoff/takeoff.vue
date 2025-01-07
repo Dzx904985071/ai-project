@@ -49,8 +49,27 @@
 <script setup>
 import { ref, onMounted, shallowRef } from 'vue'
 import NavigatorTop from "../components/navigator/navigatorTop.vue";
+import baseUrl from "../../utils/request.js"
 
 const customFile = ref(null)
+
+const getFileNameFromMimeType = (mimeType) => {
+	const mimeTypeToExtensionMap = {
+		'image/jpeg': 'jpg',
+		'image/png': 'png',
+		'image/gif': 'gif',
+		'application/pdf': 'pdf',
+		'application/msword': 'doc',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+		'application/vnd.ms-excel': 'xls',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+		'application/zip': 'zip',
+		'application/octet-stream': 'bin',
+		// 添加更多 MIME 类型到后缀名的映射
+	};
+	
+	return mimeTypeToExtensionMap[mimeType] || 'unknown';
+};
 
 const chooseImg = () => {
 	uni.chooseImage({
@@ -69,7 +88,7 @@ const chooseImg = () => {
 					// 使用 File 构造函数将 Blob:URL 转换为 File 对象
 					
 					const mimeType = blob.type;
-					const file = new File([blob], `upload_${Date.now()}.jpg`, { type: blob.type });
+					const file = new File([blob], `upload_${Date.now()}.${getFileNameFromMimeType(mimeType)}`, { type: mimeType });
 					customFile.value = file
 					console.log(file)
 					// 你可以在这里使用 file 对象进行后续操作，例如上传文件等
@@ -104,10 +123,11 @@ const deal = () => {
 			const queryString = Object.keys(params)
 				.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
 				.join('&');
-			console.log(queryString)
+			// console.log(queryString)
 			
+			// console.log(baseUrl.baseURL)
 			
-			const requestUrl = 'api/?' + queryString;
+			const requestUrl = baseUrl.baseURL + '/?' + queryString;
 			console.log(requestUrl)
 			
 			let formData = new FormData();

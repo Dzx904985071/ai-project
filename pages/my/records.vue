@@ -187,13 +187,18 @@
 					status
 				}
 			})
-			console.log(res.data)
-			result.value = res.data
-			console.log(result.value)
-			// uni.showToast({
-			// 	title: res.data.message,
-			// 	icon: 'none'
-			// })
+			// console.log(typeof res.data)
+			// console.log(res.data)
+			if(typeof res.data === 'object') {
+				result.value = res.data
+			}
+			else {
+				uni.showToast({
+					title: res.data.message,
+					icon: 'none'
+				})
+			}
+			// result.value = res.data
 		}
 		catch(e) {
 			console.log(e)
