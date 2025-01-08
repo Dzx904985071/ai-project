@@ -79,7 +79,7 @@ const chooseImg = () => {
 		sizeType: ['original', 'compressed'],
 		sourceType: ['album', 'camera'],
 		success: (res) => {           //成功返回的函数
-			console.log('图片路径为：', res.tempFilePaths[0]) //选着的图片
+			// console.log('图片路径为：', res.tempFilePaths[0]) //选着的图片
 			let blobUrl = res.tempFilePaths[0]
 			document.getElementsByClassName('uploadButtonInner_noImg')[0].style.background = "url('" + blobUrl + "') no-repeat";
 			document.getElementsByClassName('uploadButtonInner_noImg')[0].style.backgroundSize = "contain";
