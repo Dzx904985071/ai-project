@@ -91,6 +91,7 @@
 	import CheckResult from "./checkResult.vue";
 	
 	import {httpRequest} from "../../utils/request.js"
+	import {getItem} from "../../utils/auth";
 	
 	const emit = defineEmits(["close"]);
 	
@@ -181,7 +182,7 @@
 				data: {
 					ct: 'ai',
 					ac: 'aiOrder',
-					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
+					token: getItem('token'),
 					type,
 					status
 				}

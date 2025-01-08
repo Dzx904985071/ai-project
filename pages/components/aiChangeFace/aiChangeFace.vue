@@ -68,6 +68,7 @@
 <script setup>
 	import {ref, reactive, shallowRef, onMounted, defineEmits} from "vue";
 	import navigatorTop from "../../components/navigator/navigatorTop.vue";
+	import {getItem} from "../../../utils/auth";
 	
 	const emit = defineEmits(["close"]);
 	
@@ -147,6 +148,14 @@
 				icon: 'error'
 			})
 		}
+		let coin = JSON.parse(getItem('userInfo')).coin
+		// console.log(coin)
+		if(coin < Number(props.item.price)) {
+			uni.showToast({
+				title: '金币余额不足',
+				icon: 'error'
+			})
+		}
 		else {
 			uni.showToast({
 				title: '正在制作中...'
@@ -155,7 +164,7 @@
 				const params = {
 					ct: "ai",
 					ac: props.image.length > 0 ? 'imageSwap' : 'videoSwap',
-					token: 'g/bJd4AK_IzeMJ3hhNpNdw=='
+					token: getItem('token'),
 				}
 				const queryString = Object.keys(params)
 					.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))

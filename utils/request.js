@@ -6,6 +6,13 @@ baseURL = process.env.NODE_ENV === 'development' ? 'http://192.168.2.2:8080/api'
 // 正式环境
 // baseURL = 'XXXXX.XXXXX.com';
 
+const url = new URL(window.location.href)
+const params = new URLSearchParams(url.search)
+const token = params.get('token')
+if (token) {
+	window.sessionStorage.setItem('token', token)
+}
+
 export const httpRequest = (options) => {
 	return new Promise((resolve, reject) => {
 		uni.request({

@@ -10,7 +10,7 @@
 						src="/static/img/components/navigator/coin.png"
 					>
 					</wd-img>
-					10
+					{{costPer}}
 				</text>
 			</view>
 			<view>
@@ -49,8 +49,11 @@
 <script setup>
 	import {onMounted, ref} from "vue";
 	import baseUrl from "../../utils/request.js";
+	import emitter from "../../utils/emitter";
+	import {getItem} from "../../utils/auth";
 	
 	const customFile = ref(null)
+	const costPer = ref(10)
 
 const getFileNameFromMimeType = (mimeType) => {
 	const mimeTypeToExtensionMap = {
@@ -107,16 +110,32 @@ const deal = () => {
 			title: '请上传人物图片',
 			icon: 'error'
 		})
+		return
+	}
+	if(customFile.value.size > 5 * 1024 * 1024) {
+		uni.showToast({
+			title: '图片大小超过5MB',
+			icon: 'error'
+		})
+		return
+	}
+	let coin = JSON.parse(getItem('userInfo')).coin
+	// console.log(coin)
+	if(coin < Number(costPer.value)) {
+		uni.showToast({
+			title: '金币余额不足',
+			icon: 'error'
+		})
 	}
 	else {
-		uni.showToast({
-			title: '正在制作中...'
-		})
 		try {
+			uni.showToast({
+				title: '正在制作中...'
+			})
 			const params = {
 				ct: "ai",
 				ac: 'undress',
-				token: 'g/bJd4AK_IzeMJ3hhNpNdw=='
+				token: getItem('token'),
 			}
 			const queryString = Object.keys(params)
 				.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
@@ -141,29 +160,29 @@ const deal = () => {
 				body: formData, // 只有 FormData 数据
 				// 不需要显式设置 Content-Type 头，因为浏览器会根据 FormData 自动设置
 			}).then(response => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json(); // 假定服务器返回 JSON 格式的数据
-				})
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.json(); // 假定服务器返回 JSON 格式的数据
+			})
 				.then(data => {
 					console.log('Server response:', data);
 					uni.showToast({
 						title: data.message,
 						icon: 'none'
 					})
+					emitter.emit('refreshUser', 'refresh')
 					// 在这里处理服务器返回的数据
 				})
 				.catch(error => {
 					console.error('Error sending request:', error);
 				});
+			
 		}
 		catch(e) {
 			console.log(e)
 		}
-		
 	}
-	
 }
 
 const warningList = ref([

@@ -3,7 +3,7 @@
 		<wd-navbar :bordered="false" :shape="'round'">
 			<template #capsule>
 				<wd-icon :color="'#de6682'" class="homeIcon" name="home" size="28" @click="handleClickHome" ></wd-icon>
-				<view class="userNickName">{{ userInfo.nickname }}</view>
+				<view class="userNickName">{{ userInfo.user_name }}</view>
 				<view
 					:class="userInfo.level > 1 ? 'vip' : 'normal'"
 					class="userLevel vip"
@@ -17,7 +17,7 @@
 					style="margin-right: 5rpx"
 				>
 				</wd-img>
-				<view class="userCoin">{{ userInfo.balance }}</view>
+				<view class="userCoin">{{ userInfo.coin }}</view>
 				<wd-icon
 					:color="'#de6682'"
 					class="refresh"
@@ -69,16 +69,17 @@
 	
 	import emitter from '/utils/emitter.js'  // 引入事件总线
 	import {httpRequest} from "../../../utils/request";
+	import {getItem, setItem} from "../../../utils/auth";
 	
 	const debounce = getCurrentInstance().appContext.config.globalProperties.debounce
 	
 	// 定义响应式数据
 	const userInfo = ref({
-		username: "",
+		user_name: "",
 		nickname: "",
 		uuid: "",
 		sex: 1,
-		balance: 0,
+		coin: 0,
 		free_times: 0,
 		level: 1,
 		level_extra: {
@@ -107,36 +108,22 @@
 	
 	// const count = ref(0)
 	const getUserInfo = async () => {
+		
 		const params = {
-			aa: 'bb'
+			ct: 'ai',
+			ac: 'userCion',
+			token: getItem('token'),
 		}
-		// TODO 请求用户数据接口
-		// const res = await httpRequest({
-		// 	url: 'todos',
-		// 	method: 'POST',
-		// 	data: params
-		// })
-		const res = {
-			username: "jFjsV1733384631",
-			nickname: "jFjsV1733384631",
-			uuid: "d848eafd9ce5c08827a1e1c57ff5d1d7",
-			sex: 1,
-			balance: 0,
-			free_times: 0,
-			level: 1,
-			level_extra: {
-				expired_time: "",
-				undress_num: 0,
-				swap_image_num: 0,
-				swap_video_num: 0,
-				swap_gif_num: 0
-			}
-		}
+		// 请求用户数据接口
+		const res = await httpRequest({
+			url: '/',
+			method: 'GET',
+			data: params
+		})
 		try {
-			// console.log(res)
-			// count.value++
-			// console.log(count.value)
-			userInfo.value = res
+			userInfo.value.user_name = res.data.user_name
+			userInfo.value.coin = res.data.coin
+			setItem('userInfo', JSON.stringify(userInfo.value))
 		}
 		catch(e) {
 			console.log(e)
@@ -158,6 +145,9 @@
 	
 	onMounted(async () => {
 		await getUserInfo()
+		emitter.on('refreshUser', () => {
+			getUserInfo()
+		})
 	})
 	
 </script>

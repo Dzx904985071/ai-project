@@ -49,6 +49,7 @@
 	import {formatTime} from "../../utils/formatTime.js";
 	import {httpRequest}from "../../utils/request.js";
 	import baseUrl from "../../utils/request.js";
+	import {getItem} from "../../utils/auth";
 	
 	const emit = defineEmits(["closeCheckResult"]);
 	
@@ -89,7 +90,7 @@
 		const params = {
 			ct: "ai",
 			ac: 'download',
-			token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
+			token: getItem('token'),
 			task_id: props.result.task_id
 		}
 		const res = await httpRequest({

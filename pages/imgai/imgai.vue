@@ -65,6 +65,7 @@
 	import { ref, reactive, shallowRef, onMounted } from 'vue';
 	import aiChangeFace from '../components/aiChangeFace/aiChangeFace.vue'
 	import {httpRequest} from "../../utils/request";
+	import {getItem} from "../../utils/auth";
 	
 	const current = ref('')
 	const list = ref([
@@ -114,7 +115,7 @@
 				data: {
 					ct: 'ai',
 					ac: 'swapImageList',
-					token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
+					token: getItem('token'),
 					page_size: 10,
 					page,
 					order,
