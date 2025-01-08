@@ -162,7 +162,6 @@
 	const preview = (url) => {
 		previewUrl.value = url
 		previewPopup.value = true
-		
 	}
 	
 	const ifVideo = (url) => {
@@ -218,6 +217,9 @@
 
 <style lang="scss" scoped>
 	.recordList {
+		height: calc(100dvh - (44px*2) - 40rpx - (33.6px*2) - 48px);
+		margin-bottom: 48px;
+		overflow: auto;
 		
 		.recordListContent {
 			border: 1px dashed #DE6683;
