@@ -47,11 +47,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, shallowRef } from 'vue'
-import NavigatorTop from "../components/navigator/navigatorTop.vue";
-import baseUrl from "../../utils/request.js"
-
-const customFile = ref(null)
+	import {onMounted, ref} from "vue";
+	import baseUrl from "../../utils/request.js";
+	
+	const customFile = ref(null)
 
 const getFileNameFromMimeType = (mimeType) => {
 	const mimeTypeToExtensionMap = {
@@ -88,9 +87,8 @@ const chooseImg = () => {
 					// 使用 File 构造函数将 Blob:URL 转换为 File 对象
 					
 					const mimeType = blob.type;
-					const file = new File([blob], `upload_${Date.now()}.${getFileNameFromMimeType(mimeType)}`, { type: mimeType });
-					customFile.value = file
-					console.log(file)
+					customFile.value = new File([blob], `upload_${Date.now()}.${getFileNameFromMimeType(mimeType)}`, {type: mimeType})
+					// console.log(customFile.value)
 					// 你可以在这里使用 file 对象进行后续操作，例如上传文件等
 				})
 				.catch(error => {
@@ -133,7 +131,7 @@ const deal = () => {
 			let formData = new FormData();
 			formData.append('source_image', customFile.value);
 			formData.append('type', 1)
-			formData.append('und_type', 'und_free')
+			formData.append('und_type', 'und')
 			for (let pair of formData.entries()) {
 				console.log(pair[0] + ': ' + pair[1]);
 			}

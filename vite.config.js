@@ -10,13 +10,12 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: '接口地址',
+				target: 'http://www.bobogame.vip/',
 				changeOrigin: true,
 				rewrite: path => {
 					return path.replace(/^\/api/, '')
 				}
-			},
-			
+			}
 		}
 	}
 })

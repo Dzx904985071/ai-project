@@ -15,6 +15,7 @@
 		</view>
 		
 		<wd-upload
+			v-if="false"
 			:action="uploadAction"
 			:max-size="5242880"
 			:limit="1"

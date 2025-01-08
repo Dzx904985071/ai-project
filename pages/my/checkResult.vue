@@ -47,6 +47,8 @@
 <script setup>
 	import {ref, reactive, shallowRef, onMounted, defineEmits, defineProps, watch} from "vue";
 	import {formatTime} from "../../utils/formatTime.js";
+	import {httpRequest}from "../../utils/request.js";
+	import baseUrl from "../../utils/request.js";
 	
 	const emit = defineEmits(["closeCheckResult"]);
 	
@@ -83,54 +85,37 @@
 		console.log(props.result);
 	});
 	
-	const download = () => {
-		uni.downloadFile({
-			url: props.result.result_url,
-			header: {
-				"Access-Control-Allow-Origin": "*",
-			},
-			success: (res) => {
-				console.log(res);
-				if(res.statusCode === 200){
-					uni.saveFile({
-						tempFilePath: res.tempFilePath,
-						success: (saveRes) => {
-							// 文件保存成功，可以提示用户
-							uni.showToast({
-								title: "文件下载成功",
-								icon: "success"
-							});
-							// 可以选择将文件路径保存起来，以便用户后续查看
-							console.log("文件保存路径:", saveRes.savedFilePath);
-						},
-						fail: (err) => {
-							// 文件保存失败
-							uni.showToast({
-								title: "文件保存失败",
-								icon: "none"
-							});
-							console.error("文件保存失败:", err);
-						}
-					});
-				}
-				else {
-					// 下载失败
-					uni.showToast({
-						title: "文件下载失败",
-						icon: "none"
-					});
-					console.error("文件下载失败:", res);
-				}
-			},
-			fail: (err) => {
-				// 下载失败
+	const download = async () => {
+		const params = {
+			ct: "ai",
+			ac: 'download',
+			token: 'g/bJd4AK_IzeMJ3hhNpNdw==',
+			task_id: props.result.task_id
+		}
+		const res = await httpRequest({
+			url: '/',
+			method: 'GET',
+			data: params
+		})
+		try {
+			console.log(res)
+			if(res.data.code === 0) {
+				let url = res.data.result_local_url.replace(/\\/g, '')
+				// 通过a标签自动下载
+				const a = document.createElement('a');
+				a.href = baseUrl.baseURL + url
+				a.download = url.split('/').pop()
+				a.click();
+				// 提示用户下载完成
 				uni.showToast({
-					title: "文件下载失败",
-					icon: "none"
+					title: '下载成功',
+					icon: 'success'
 				});
-				console.error("文件下载失败:", err);
 			}
-		});
+		}
+		catch(e) {
+			console.log(e)
+		}
 	};
 
 
