@@ -1,6 +1,7 @@
 dist/**
 .project
 .DS_Store
+.history/
 wxcomponents/**/*.vue
 wxcomponents/**/*.css
 .hbuilderx/

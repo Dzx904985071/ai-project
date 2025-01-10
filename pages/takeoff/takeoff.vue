@@ -35,7 +35,7 @@
 			<view style="margin-bottom: 20rpx">
 				<wd-text type="primary" text="注意事项" bold></wd-text>
 			</view>
-			<view v-for="(item, index) in warningList" class="warningText">
+			<view v-for="(item, index) in warningList" :key="index" class="warningText">
 				<wd-text :text="item" size="12">
 					<template #prefix>
 						<text>{{index + 1}}、</text>

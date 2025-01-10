@@ -189,7 +189,7 @@
 			})
 			// console.log(typeof res.data)
 			// console.log(res.data)
-			if(typeof res.data === 'object') {
+			if(res.data.message !== '无结果') {
 				result.value = res.data
 			}
 			else {
