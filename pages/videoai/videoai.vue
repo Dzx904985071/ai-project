@@ -35,7 +35,7 @@
 					</view>
 				</wd-grid-item>
 			</wd-grid>
-			<wd-button v-if="current_page < last_page" type="primary" @click="getModelList(current_page + 1, current.value)">加载更多</wd-button>
+			<wd-button block v-if="current_page < last_page" type="primary" size="small" @click="getModelList(current_page + 1, current.value)">加载更多</wd-button>
 			<wd-divider v-else>暂无更多数据</wd-divider>
 		</view>
 		

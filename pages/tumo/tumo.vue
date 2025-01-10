@@ -67,7 +67,6 @@
 
 <script setup>
 	import {onMounted, ref, shallowRef} from "vue";
-	import QSCanvas from "../../utils/QSCanvas";
 	import TumoCanvas from "../components/canvas/tumoCanvas.vue";
 	
 	const customFile = ref(null)
