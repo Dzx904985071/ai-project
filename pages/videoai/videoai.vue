@@ -1,7 +1,7 @@
 <template>
 	<view class="imgaiContent">
 		<!--视频换脸-->
-		<wd-segmented :options="list" v-model:value="current" size="small" style="z-index: 9">
+		<wd-segmented v-show="showItem" :options="list" v-model:value="current" size="small" style="z-index: 9">
 			<template #label="{ option }">
 				<view class="section-slot">
 					<view class="name">{{ option.label }}</view>
@@ -50,6 +50,7 @@
 	import aiChangeFace from '../components/aiChangeFace/aiChangeFace.vue'
 	import {httpRequest} from "../../utils/request";
 	import {getItem} from "../../utils/auth";
+	import emitter from "../../utils/emitter";
 	
 	const current = ref('')
 	const list = ref([
@@ -74,6 +75,8 @@
 			value: '4'
 		}
 	])
+	
+	const showItem = ref(true)
 	
 	// 选中的箭头方向：1 升序，0 重置状态，-1 降序。
 	const uploadTime = ref(0)
@@ -129,6 +132,12 @@
 	onMounted(() => {
 		current.value = list.value[0].value
 		getModelList(current_page.value, current.value)
+		emitter.on('showRecords', () => {
+			showItem.value = false
+		})
+		emitter.on('hideRecords', () => {
+			showItem.value = true
+		})
 	})
 
 </script>

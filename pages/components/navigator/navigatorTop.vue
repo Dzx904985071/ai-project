@@ -52,7 +52,7 @@
 		</view>
 		
 		<view v-if="showRecordsList" class="recordsList">
-			<records :show-top="false" @close="showRecordsList = false"></records>
+			<records :show-top="false" @close="showRecordsList = false; emitter.emit('hideRecords', 'hideRecords')"></records>
 		</view>
 		
 		<view v-if="showRechargeList" class="rechargeList">
@@ -136,6 +136,7 @@
 	const showRechargeList = ref(false)
 	
 	const showRecords = () => {
+		emitter.emit('showRecords', 'show')
 		showRecordsList.value = true
 	}
 	
