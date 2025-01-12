@@ -69,6 +69,8 @@
 	import {ref, reactive, shallowRef, onMounted, defineEmits} from "vue";
 	import navigatorTop from "../../components/navigator/navigatorTop.vue";
 	import {getItem} from "../../../utils/auth";
+	import baseUrl from "../../../utils/request";
+	import emitter from "../../../utils/emitter";
 	
 	const emit = defineEmits(["close"]);
 	
@@ -94,6 +96,24 @@
 		}
 	})
 	
+	const getFileNameFromMimeType = (mimeType) => {
+		const mimeTypeToExtensionMap = {
+			'image/jpeg': 'jpg',
+			'image/png': 'png',
+			'image/gif': 'gif',
+			'application/pdf': 'pdf',
+			'application/msword': 'doc',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+			'application/vnd.ms-excel': 'xls',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+			'application/zip': 'zip',
+			'application/octet-stream': 'bin',
+			// 添加更多 MIME 类型到后缀名的映射
+		};
+		
+		return mimeTypeToExtensionMap[mimeType] || 'unknown';
+	};
+	
 	const customFile = ref(null)
 	
 	const chooseImg = () => {
@@ -113,7 +133,7 @@
 						// 使用 File 构造函数将 Blob:URL 转换为 File 对象
 						
 						const mimeType = blob.type;
-						const file = new File([blob], `upload_${Date.now()}.jpg`, { type: blob.type });
+						const file = new File([blob], `upload_${Date.now()}.${getFileNameFromMimeType(mimeType)}`, { type: blob.type });
 						customFile.value = file
 						console.log(file)
 						// 你可以在这里使用 file 对象进行后续操作，例如上传文件等
@@ -141,7 +161,7 @@
 		return url.indexOf(".mp4") > -1
 	}
 	
-	const deal = () => {
+	const deal = async () => {
 		if(customFile.value === null) {
 			uni.showToast({
 				title: '请上传人物图片',
@@ -163,28 +183,51 @@
 			try {
 				const params = {
 					ct: "ai",
-					ac: props.image.length > 0 ? 'imageSwap' : 'videoSwap',
+					ac: props.item.image.length > 0 ? 'imageSwap' : 'videoSwap',
 					token: getItem('token'),
 				}
 				const queryString = Object.keys(params)
 					.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
 					.join('&');
 				console.log(queryString)
-				const requestUrl = 'api/?' + queryString;
+				const requestUrl = baseUrl.baseURL + '/?' + queryString;
 				console.log(requestUrl)
 				let formData = new FormData();
 				formData.append('target_image', customFile.value);
-				if(props.image.length > 0) {
+				if(props.item.image?.length > 0) {
 					formData.append('type', 2)
 					formData.append('tl_image_id', props.item.id)
 				}
-				if(props.video_image.length > 0) {
+				if(props.item.video_image?.length > 0) {
 					formData.append('tl_video_id', props.item.id)
 				}
 				
-				for (let pair of formData.entries()) {
-					console.log(pair[0] + ': ' + pair[1]);
-				}
+				// for (let pair of formData.entries()) {
+				// 	console.log(pair[0] + ': ' + pair[1]);
+				// }
+				
+				fetch(requestUrl, {
+					method: 'POST',
+					body: formData, // 只有 FormData 数据
+					// 不需要显式设置 Content-Type 头，因为浏览器会根据 FormData 自动设置
+				}).then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json(); // 假定服务器返回 JSON 格式的数据
+				})
+					.then(data => {
+						console.log('Server response:', data);
+						uni.showToast({
+							title: data.message,
+							icon: 'none'
+						})
+						emitter.emit('refreshUser', 'refresh')
+						// 在这里处理服务器返回的数据
+					})
+					.catch(error => {
+						console.error('Error sending request:', error);
+					});
 			}
 			catch(e) {
 				console.log(e)

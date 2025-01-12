@@ -1,7 +1,7 @@
 <template>
 	<view class="imgaiContent">
 		<!--视频换脸-->
-		<wd-segmented :options="list" v-model:value="current" size="small" >
+		<wd-segmented :options="list" v-model:value="current" size="small" style="z-index: 9">
 			<template #label="{ option }">
 				<view class="section-slot">
 					<view class="name">{{ option.label }}</view>

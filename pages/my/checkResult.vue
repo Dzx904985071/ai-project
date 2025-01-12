@@ -36,9 +36,9 @@
 		</view>
 		
 		<view class="content">
-			<img v-if="!ifVideo(props.result.result_url)" :src="props.result.result_url" width="100%" alt=""/>
+			<img v-if="!ifVideo(props.result.result_url)" :src="resultUrl" width="100%" alt=""/>
 			<video
-				v-else :src="props.result.result_url" controls="controls" style="width: 100%; height: 100%"
+				v-else :src="resultUrl" controls="controls" style="width: 100%; height: 100%"
 			></video>
 		</view>
 	</view>
@@ -77,16 +77,14 @@
 		}
 	});
 	
+	const resultUrl = ref(null)
+	const show = ref(false)
 	
 	const ifVideo = (url) => {
 		return url.indexOf(".mp4") > - 1;
-	};
+	}
 	
-	onMounted(() => {
-		console.log(props.result);
-	});
-	
-	const download = async () => {
+	const getResultUrl = async () => {
 		const params = {
 			ct: "ai",
 			ac: 'download',
@@ -101,22 +99,30 @@
 		try {
 			console.log(res)
 			if(res.data.code === 0) {
-				let url = res.data.result_local_url.replace(/\\/g, '')
-				// 通过a标签自动下载
-				const a = document.createElement('a');
-				a.href = baseUrl.baseURL + url
-				a.download = url.split('/').pop()
-				a.click();
-				// 提示用户下载完成
-				uni.showToast({
-					title: '下载成功',
-					icon: 'success'
-				});
+				resultUrl.value = baseUrl.baseURL +  res.data.result_local_url.replace(/\\/g, '')
+				console.log(resultUrl.value);
+				show.value = true
 			}
 		}
 		catch(e) {
 			console.log(e)
 		}
+	}
+	
+	onMounted(() => {
+		getResultUrl()
+	});
+	
+	const download = async () => {
+		const a = document.createElement('a');
+		a.href = resultUrl.value
+		a.download = resultUrl.value.split('/').pop()
+		a.click();
+		// 提示用户下载完成
+		uni.showToast({
+			title: '下载成功',
+			icon: 'success'
+		});
 	};
 
 
